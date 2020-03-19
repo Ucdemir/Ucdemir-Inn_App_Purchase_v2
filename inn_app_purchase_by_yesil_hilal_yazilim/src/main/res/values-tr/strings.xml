@@ -1,0 +1,11 @@
+<resources>
+
+
+    <string name="pro_succesfully_bought">Başarılı bir şekilde satın aldınız ve yüklediniz</string>
+    <string name="error_occurred">Hata oluştu</string>
+    <string name="in_app_purchase_is_not_suppored">Uygulama içi alışveriş cihazınızda desteklenmiyor</string>
+    <string name="succuss_buy">Başarıyla satın aldınız...</string>
+    <string name="no_purchase">Hiç bir şey satın almamışsınız</string>
+
+
+</resources>

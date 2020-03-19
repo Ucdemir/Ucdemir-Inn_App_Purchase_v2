@@ -1,0 +1,3 @@
+rootProject.name='Inn_App_Purchase'
+include ':app'
+include ':inn_app_purchase_by_yesil_hilal_yazilim'

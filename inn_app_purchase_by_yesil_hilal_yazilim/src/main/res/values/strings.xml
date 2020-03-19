@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="pro_succesfully_bought">You have successfully purchased and restored</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="in_app_purchase_is_not_suppored">In app purchase is not supported in your device</string>
+    <string name="succuss_buy">Successfully bought…</string>
+    <string name="no_purchase"> You have not purchased anything</string>
+
+
+</resources>
