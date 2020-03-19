@@ -34,7 +34,7 @@ public class LibraryStatics {
 
         Intent mStartActivity = null;
 
-            mStartActivity = new Intent(context, Class.forName(packageName+"."+className));
+            mStartActivity = new Intent(context, Class.forName(className));
 
         int mPendingIntentId = 123456;
         PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
