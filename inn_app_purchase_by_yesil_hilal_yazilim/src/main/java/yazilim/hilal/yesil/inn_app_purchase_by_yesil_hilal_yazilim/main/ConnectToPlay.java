@@ -24,7 +24,7 @@ import java.util.List;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.R;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
 
-
+//a
 
 public class ConnectToPlay {
 
