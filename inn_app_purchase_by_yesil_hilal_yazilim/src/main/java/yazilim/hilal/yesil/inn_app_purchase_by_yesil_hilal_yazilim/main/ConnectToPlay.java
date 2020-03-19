@@ -23,6 +23,7 @@ import java.util.List;
 
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.R;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.PurchaseStatus;
 
 //a
 
@@ -30,12 +31,12 @@ public class ConnectToPlay {
 
 
     private  static BillingClient mBillingClient;
-    private static SkuDetails skuDetails;
     private static  ConnectToPlay instance;
+    private  List<Purchase> listUserBoughtPurchase = new ArrayList<>();
     private Context context;
     private InAppPurchaseListener mInAppPurchaseListener;
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
-    private String productSKU = "pro";
+    private List<String> listApplicationSKU  = new ArrayList<>();
 
 
 
@@ -55,8 +56,10 @@ public class ConnectToPlay {
         return instance;
     }
 
-    public  void initBilling(Application app){
+    public  void initBilling(Application app,List<String> listApplicationSKU){
+        this.listApplicationSKU = listApplicationSKU;
         this.context = app;
+
     }
 
 
@@ -85,7 +88,7 @@ public class ConnectToPlay {
 
                     switch (type){
                         case GetPriceProducts:
-                            getInstance().getPriceOfProduct();
+                            getInstance().getPriceOfAllProduct();
                             break;
 
                         case CheckProductStatus:
@@ -141,9 +144,9 @@ public class ConnectToPlay {
             LibraryStatics.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
 
 
-            if(mInAppPurchaseListener != null) {
+            /*if(mInAppPurchaseListener != null) {
                 mInAppPurchaseListener.isPruductOwned(true);
-            }
+            }*/
 
             LibraryStatics.restartApp(context);
 
@@ -162,7 +165,7 @@ public class ConnectToPlay {
     }
 
 
-    public static void  startBuyOut(Context context){
+    public static void  startBuyOut(Context context,SkuDetails skuDetails){
 
         if(mBillingClient != null) {
             BillingResult responseCode = mBillingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_ITEMS_ON_VR);
@@ -179,41 +182,20 @@ public class ConnectToPlay {
         }
     }
 
-    private void getPriceOfProduct(){
-        List<String> skuList = new ArrayList<>();
-        skuList.add(productSKU);
+    private void getPriceOfAllProduct(){
+
+
+
         SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+        params.setSkusList(listApplicationSKU).setType(BillingClient.SkuType.INAPP);
         mBillingClient.querySkuDetailsAsync(params.build(),
                 new SkuDetailsResponseListener() {
                     @Override
                     public void onSkuDetailsResponse(BillingResult billingResult,
-                                                     List<SkuDetails> skuDetailsList) {
+                                                     List<SkuDetails> listOfSkuProductDetails) {
 
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
-
-                            for (SkuDetails skuProduct : skuDetailsList) {
-
-                                //product detail
-                                skuDetails = skuProduct;
-
-                                String sku = skuProduct.getSku();
-                                String price = skuProduct.getPrice();
-
-
-                                if (productSKU.equals(sku)) {
-
-
-
-                                    if(mInAppPurchaseListener != null) {
-                                        mInAppPurchaseListener.returnPrice(price);
-                                    }
-
-
-                                }
-
-
-                            }
+                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && listOfSkuProductDetails != null) {
+                            mInAppPurchaseListener.returnAllProductsDetailsFromPlayStore(listOfSkuProductDetails);
                         }
 
                     }
@@ -244,28 +226,58 @@ public class ConnectToPlay {
         }
     }
 
-    public void handlePurchase(Purchase purchase, BillingResult  resultCode) {
+    public void handlePurchase(Purchase boughtPurchase, BillingResult  resultCode) {
 
-        if(purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
 
-            if (purchase.getSku().equals(productSKU)) {
-                if(mInAppPurchaseListener != null) {
-                    mInAppPurchaseListener.isPruductOwned(true);
-                }
-                LibraryStatics.showToastMessage(context, context.getString(R.string.succuss_buy));
-                LibraryStatics.restartApp(context);
 
-                if (!purchase.isAcknowledged()) {
-                    //If its not Acknowledged() do it
-                   checkIsAcknowledged(purchase);
+        if(boughtPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+             boolean isFound = false;
+             a: for(String  appSkuName : listApplicationSKU ) {
+
+                if (boughtPurchase.getSku().equals(appSkuName)) {
+
+
+                    PurchaseStatus purchaseStatus = new PurchaseStatus();
+
+                    purchaseStatus.setSkuName(appSkuName);
+                    purchaseStatus.setBought(true);
+
+                    LibraryStatics.showToastMessage(context, context.getString(R.string.succuss_buy));
+                    LibraryStatics.restartApp(context);
+
+
+
+                    if (!boughtPurchase.isAcknowledged()) {
+                        //If its not Acknowledged() do it
+                        checkIsAcknowledged(boughtPurchase);
+
+                    }
+
+                    if (mInAppPurchaseListener != null) {
+                        mInAppPurchaseListener.isPruductBought(purchaseStatus);
+                    }
+
+                    isFound = true;
+                    break a;
 
                 }
 
             }
 
+
+            if(!isFound){
+                if (mInAppPurchaseListener != null) {
+                    PurchaseStatus purchaseStatus = new PurchaseStatus();
+                    purchaseStatus.setSkuName(boughtPurchase.getSku());
+                    purchaseStatus.setBought(false);
+                    mInAppPurchaseListener.isPruductBought(purchaseStatus);
+                }
+            }
+
+
         }
 
-        else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+        else if (boughtPurchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
 
         }
 
@@ -276,40 +288,52 @@ public class ConnectToPlay {
     //This method used in cached, for real time use queryPurchaseHistoryAsync()
     private void  getCachedQueryList(){
 
+
+        List<PurchaseStatus> listOfBoughtProducts = new ArrayList<>();
+
         if(mBillingClient != null) {
 
-
-
             Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
-            List<Purchase> result = purchasesResult.getPurchasesList();
+            List<Purchase> listOfAllBoughtProducts = purchasesResult.getPurchasesList();
 
-            for (Purchase row : result) {
+            for (Purchase boughtProducts : listOfAllBoughtProducts) {
 
                 //commentle
-                //consumeProductForTestPurpose(row.getPurchaseToken(),row.getDeveloperPayload());
-                if (row.getSku().equals(productSKU)) {
+               /* consumeProductForTestPurpose(row.getPurchaseToken(),row.getDeveloperPayload());*/
 
-                    LibraryStatics.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+                boolean isBought = false;
+                a:for (String appSku : listApplicationSKU) {
 
-                    if(mInAppPurchaseListener!= null) {
-                        mInAppPurchaseListener.isPruductOwned(true);
+                    if (boughtProducts.getSku().equals(appSku)) {
+                        PurchaseStatus itemThatBought = new PurchaseStatus();
+                        itemThatBought.setSkuName(appSku);
+                        itemThatBought.setBought(true);
+
+                        listOfBoughtProducts.add(itemThatBought);
+                        LibraryStatics.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+
+                        LibraryStatics.restartApp(context);
+
+                        isBought = true;
+                        break a;
                     }
-                    LibraryStatics.restartApp(context);
+                }
+                if(!isBought){
+                    PurchaseStatus itemThatNotBought = new PurchaseStatus();
+                    itemThatNotBought.setSkuName(boughtProducts.getSku());
+                    itemThatNotBought.setBought(false);
+                    listOfBoughtProducts.add(itemThatNotBought);
 
                 }
             }
 
-            if (result.size() == 0) {
-                if(mInAppPurchaseListener!= null) {
-                    mInAppPurchaseListener.isPruductOwned(false);
-                }
-                LibraryStatics.showToastMessage(context, context.getString(R.string.no_purchase));
-
+            if (mInAppPurchaseListener != null) {
+                mInAppPurchaseListener.listOfStatusProducts(listOfBoughtProducts);
             }
         }
     }
 
-    private void consumeProductForTestPurpose(String purchaseToken, String payload){
+    public void consumeProductForTestPurpose(String purchaseToken, String payload){
         ConsumeParams consumeParams =
                 ConsumeParams.newBuilder()
                         .setPurchaseToken(purchaseToken)
