@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
@@ -22,12 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.R;
+
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.PurchaseStatus;
 
-//a
 
-public class ConnectToPlay {
+
+public class ConnectToPlay  extends YHYManager{
 
 
     private  static BillingClient mBillingClient;
@@ -36,7 +38,6 @@ public class ConnectToPlay {
     private Context context;
     private InAppPurchaseListener mInAppPurchaseListener;
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
-    private List<String> listApplicationSKU  = new ArrayList<>();
 
 
 
@@ -57,7 +58,7 @@ public class ConnectToPlay {
     }
 
     public  void initBilling(Application app,List<String> listApplicationSKU){
-        this.listApplicationSKU = listApplicationSKU;
+        super.listApplicationSKU = listApplicationSKU;
         this.context = app;
 
     }
@@ -141,20 +142,20 @@ public class ConnectToPlay {
 
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
 
-            LibraryStatics.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+            super.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
 
 
             /*if(mInAppPurchaseListener != null) {
                 mInAppPurchaseListener.isPruductOwned(true);
             }*/
 
-            LibraryStatics.restartApp(context);
+           super.restartApp(context);
 
         }
 
         else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ERROR) {
 
-            LibraryStatics.showToastMessage(context, context.getString(R.string.error_occurred));
+            super.showToastMessage(context, context.getString(R.string.error_occurred));
 
 
         }
@@ -165,7 +166,7 @@ public class ConnectToPlay {
     }
 
 
-    public static void  startBuyOut(Context context,SkuDetails skuDetails){
+    public  void  startBuyOut(Context context,SkuDetails skuDetails){
 
         if(mBillingClient != null) {
             BillingResult responseCode = mBillingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_ITEMS_ON_VR);
@@ -175,7 +176,7 @@ public class ConnectToPlay {
                         .build();
                 mBillingClient.launchBillingFlow((Activity) context, flowParams).getResponseCode();
             } else {
-                LibraryStatics.showToastMessage(context, context.getString(R.string.in_app_purchase_is_not_suppored));
+                super.showToastMessage(context, context.getString(R.string.in_app_purchase_is_not_suppored));
 
             }
 
@@ -242,8 +243,8 @@ public class ConnectToPlay {
                     purchaseStatus.setSkuName(appSkuName);
                     purchaseStatus.setBought(true);
 
-                    LibraryStatics.showToastMessage(context, context.getString(R.string.succuss_buy));
-                    LibraryStatics.restartApp(context);
+                    super.showToastMessage(context, context.getString(R.string.succuss_buy));
+                    super.restartApp(context);
 
 
 
@@ -310,9 +311,9 @@ public class ConnectToPlay {
                         itemThatBought.setBought(true);
 
                         listOfBoughtProducts.add(itemThatBought);
-                        LibraryStatics.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+                        super.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
 
-                        LibraryStatics.restartApp(context);
+                        super.restartApp(context);
 
                         isBought = true;
                         break a;

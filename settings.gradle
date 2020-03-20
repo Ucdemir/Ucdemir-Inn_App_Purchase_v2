@@ -1,3 +1,3 @@
-rootProject.name='Inn_App_Purchase'
-include ':app'
+rootProject.name='example'
+include ':example'
 include ':inn_app_purchase_by_yesil_hilal_yazilim'

@@ -21,11 +21,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
 }
 
 dependencies {
+    sharedGroup dependencies
 
 
-    implementation 'com.android.billingclient:billing:2.1.0'
 }
