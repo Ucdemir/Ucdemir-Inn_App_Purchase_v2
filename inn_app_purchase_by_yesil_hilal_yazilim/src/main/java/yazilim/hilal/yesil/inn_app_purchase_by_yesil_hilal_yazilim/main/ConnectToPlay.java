@@ -18,13 +18,18 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.R;
 
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterAcknowledgePurchaseResponseListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterConsumeListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.ProductStatusGotListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.PurchaseStatus;
 
 
@@ -32,11 +37,24 @@ import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.Purchase
 public class ConnectToPlay  extends YHYManager{
 
 
-    private  static BillingClient mBillingClient;
+    private   BillingClient mBillingClient;
     private static  ConnectToPlay instance;
+
+
+    private boolean isProductStatusGot = false;
     private  List<Purchase> listUserBoughtPurchase = new ArrayList<>();
-    private Context context;
+
+    private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
+    private HashMap<String,Purchase> hashMapPurchaseDetails = new HashMap<>();
+
+    private KProgressHUD hud;
+
+    private Activity activity;
+
     private InAppPurchaseListener mInAppPurchaseListener;
+    private ProductStatusGotListener mProductStatusGotListener;
+    private AfterConsumeListener mAfterConsumeListener;
+    private AfterAcknowledgePurchaseResponseListener mAfterAcknowledgePurchaseResponseListener;
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
 
 
@@ -49,38 +67,78 @@ public class ConnectToPlay  extends YHYManager{
     private ConnectToPlay(){
 
     }
+
+    public  ConnectToPlay showHud(String msg){
+        hud = KProgressHUD.create(activity)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setDimAmount(0.5f)
+                .setAnimationSpeed(2);
+         if(msg!= null) {
+             hud.setLabel("");
+         }
+         hud.show();
+
+        return instance;
+    }
+
+    public void hideHud(){
+        if(hud != null){
+            hud.dismiss();
+        }
+
+    }
+
     public static ConnectToPlay getInstance(){
         if (instance == null){
             instance = new ConnectToPlay();
+
         }
 
         return instance;
     }
 
-    public  void initBilling(Application app,List<String> listApplicationSKU){
-        super.listApplicationSKU = listApplicationSKU;
-        this.context = app;
+    public  ConnectToPlay initForActivity(Activity a){
+        this.activity = a;
+
+        return instance;
+    }
+
+    public static void initBillingForApp(Application app,List<String> listApplicationSKU){
+        YHYManager.listApplicationSKU = listApplicationSKU;
+        DaoPurchaseStatus dao = BillingDB.getDatabase(app).purchaseStatusDAO();
+
+        for(String sku : listApplicationSKU){
+           int count = dao.getCountOfSKU(sku);
+           if(count == 0){
+               EntityPurchaseStatus entity = new EntityPurchaseStatus();
+               entity.setProductName(sku);
+               entity.setBought(false);
+               dao.insert(entity);
+           }
+        }
+
+
+
 
     }
 
 
-    public static ConnectToPlay startToWork(final CallType type){
+    public  ConnectToPlay startToWork(final CallType type){
 
 
 
-        if(mBillingClient == null) {
-
-            mBillingClient = BillingClient.newBuilder(getInstance().context).
+            mBillingClient = BillingClient.newBuilder(activity).
                     enablePendingPurchases().
                     setListener(new PurchasesUpdatedListener() {
                                     @Override
                                     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> list) {
 
-                                       getInstance().purchaseStatus( billingResult,  list);
+                                       instance.purchaseStatus( billingResult,  list);
                                     }
                                 }
 
                     ).build();
+
             mBillingClient.startConnection(new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
@@ -89,11 +147,11 @@ public class ConnectToPlay  extends YHYManager{
 
                     switch (type){
                         case GetPriceProducts:
-                            getInstance().getPriceOfAllProduct();
+                            getPriceOfAllProduct();
                             break;
 
                         case CheckProductStatus:
-                            getInstance().getCachedQueryList();
+                            getCachedQueryList();
                             break;
                     }
 
@@ -101,27 +159,24 @@ public class ConnectToPlay  extends YHYManager{
 
                 @Override
                 public void onBillingServiceDisconnected() {
-                    if(mBillingClient != null) {
-                        mBillingClient.startConnection(this);
-
-                    }else{
                         startToWork(type);
-                    }
+
                 }
             });
 
-             getInstance().acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
+             acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
                 @Override
                 public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
+
+                    if(mAfterAcknowledgePurchaseResponseListener != null){
+                        mAfterAcknowledgePurchaseResponseListener.onAcknowledgePurchaseResponse(billingResult);
+                    }
                 }
             };
 
-        }else{
-            startToWork(type);
-        }
 
-        return getInstance();
+        return  instance;
     }
 
 
@@ -138,24 +193,21 @@ public class ConnectToPlay  extends YHYManager{
             }
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
 
+            super.showToastMessage(activity, activity.getString(R.string.user_canceled_purchase));
 
 
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
 
-            super.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+            super.showToastMessage(activity, activity.getString(R.string.already_purchased));
 
 
-            /*if(mInAppPurchaseListener != null) {
-                mInAppPurchaseListener.isPruductOwned(true);
-            }*/
 
-           super.restartApp(context);
 
         }
 
         else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ERROR) {
 
-            super.showToastMessage(context, context.getString(R.string.error_occurred));
+            super.showToastMessage(activity, activity.getString(R.string.error_occurred));
 
 
         }
@@ -166,7 +218,7 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
-    public  void  startBuyOut(Context context,SkuDetails skuDetails){
+    public  void  startBuyOut(Activity activity,SkuDetails skuDetails){
 
         if(mBillingClient != null) {
             BillingResult responseCode = mBillingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_ITEMS_ON_VR);
@@ -174,12 +226,14 @@ public class ConnectToPlay  extends YHYManager{
                 BillingFlowParams flowParams = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetails)
                         .build();
-                mBillingClient.launchBillingFlow((Activity) context, flowParams).getResponseCode();
+                mBillingClient.launchBillingFlow(activity, flowParams).getResponseCode();
             } else {
-                super.showToastMessage(context, context.getString(R.string.in_app_purchase_is_not_suppored));
+                super.showToastMessage(activity, activity.getString(R.string.in_app_purchase_is_not_suppored));
 
             }
 
+        }else{
+            notConnectedToGooglePlay();
         }
     }
 
@@ -196,7 +250,10 @@ public class ConnectToPlay  extends YHYManager{
                                                      List<SkuDetails> listOfSkuProductDetails) {
 
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && listOfSkuProductDetails != null) {
-                            mInAppPurchaseListener.returnAllProductsDetailsFromPlayStore(listOfSkuProductDetails);
+
+
+                            mInAppPurchaseListener.
+                                    returnAllProductsDetailsFromPlayStore(initHashMapSkuDetails(listOfSkuProductDetails));
                         }
 
                     }
@@ -204,12 +261,9 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
-    public ConnectToPlay setmInAppPurchaseListener(InAppPurchaseListener listener){
 
-         mInAppPurchaseListener = listener;
 
-         return this;
-    }
+
 
 
     //Making Acknowledged
@@ -223,6 +277,8 @@ public class ConnectToPlay  extends YHYManager{
             if(mBillingClient != null) {
 
                 mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
+            }else{
+                notConnectedToGooglePlay();
             }
         }
     }
@@ -230,51 +286,27 @@ public class ConnectToPlay  extends YHYManager{
     public void handlePurchase(Purchase boughtPurchase, BillingResult  resultCode) {
 
 
-
         if(boughtPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-             boolean isFound = false;
+
              a: for(String  appSkuName : listApplicationSKU ) {
 
                 if (boughtPurchase.getSku().equals(appSkuName)) {
 
-
-                    PurchaseStatus purchaseStatus = new PurchaseStatus();
-
-                    purchaseStatus.setSkuName(appSkuName);
-                    purchaseStatus.setBought(true);
-
-                    super.showToastMessage(context, context.getString(R.string.succuss_buy));
-                    super.restartApp(context);
-
-
-
                     if (!boughtPurchase.isAcknowledged()) {
-                        //If its not Acknowledged() do it
                         checkIsAcknowledged(boughtPurchase);
-
                     }
 
-                    if (mInAppPurchaseListener != null) {
-                        mInAppPurchaseListener.isPruductBought(purchaseStatus);
-                    }
+                    BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true
+                            ,boughtPurchase.getSku());
 
-                    isFound = true;
+                    super.showToastMessage(activity, activity.getString(R.string.succuss_buy));
+                    super.restartApp(activity);
+
+
                     break a;
-
                 }
 
             }
-
-
-            if(!isFound){
-                if (mInAppPurchaseListener != null) {
-                    PurchaseStatus purchaseStatus = new PurchaseStatus();
-                    purchaseStatus.setSkuName(boughtPurchase.getSku());
-                    purchaseStatus.setBought(false);
-                    mInAppPurchaseListener.isPruductBought(purchaseStatus);
-                }
-            }
-
 
         }
 
@@ -282,6 +314,9 @@ public class ConnectToPlay  extends YHYManager{
 
         }
 
+        if (mInAppPurchaseListener != null) {
+            mInAppPurchaseListener.isPruductBought(boughtPurchase.getPurchaseState());
+        }
     }
 
 
@@ -289,52 +324,42 @@ public class ConnectToPlay  extends YHYManager{
     //This method used in cached, for real time use queryPurchaseHistoryAsync()
     private void  getCachedQueryList(){
 
-
+        isProductStatusGot = false;
         List<PurchaseStatus> listOfBoughtProducts = new ArrayList<>();
 
         if(mBillingClient != null) {
 
             Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
-            List<Purchase> listOfAllBoughtProducts = purchasesResult.getPurchasesList();
+            List<Purchase> listOfAllProducts = purchasesResult.getPurchasesList();
 
-            for (Purchase boughtProducts : listOfAllBoughtProducts) {
-
-                //commentle
-               /* consumeProductForTestPurpose(row.getPurchaseToken(),row.getDeveloperPayload());*/
-
-                boolean isBought = false;
+            for (Purchase item : listOfAllProducts) {
                 a:for (String appSku : listApplicationSKU) {
 
-                    if (boughtProducts.getSku().equals(appSku)) {
-                        PurchaseStatus itemThatBought = new PurchaseStatus();
-                        itemThatBought.setSkuName(appSku);
-                        itemThatBought.setBought(true);
+                    if (item.getSku().equals(appSku)) {
 
-                        listOfBoughtProducts.add(itemThatBought);
-                        super.showToastMessage(context, context.getString(R.string.pro_succesfully_bought));
+                        BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true,item.getSku());
 
-                        super.restartApp(context);
-
-                        isBought = true;
                         break a;
                     }
                 }
-                if(!isBought){
-                    PurchaseStatus itemThatNotBought = new PurchaseStatus();
-                    itemThatNotBought.setSkuName(boughtProducts.getSku());
-                    itemThatNotBought.setBought(false);
-                    listOfBoughtProducts.add(itemThatNotBought);
 
-                }
+                checkIsAcknowledged(item);
+
             }
 
-            if (mInAppPurchaseListener != null) {
-                mInAppPurchaseListener.listOfStatusProducts(listOfBoughtProducts);
+            HashMap<String,Purchase>  list = initHashMapPurchaseDetails(listOfAllProducts);
+            updateOwnedProductsOnDB(list);
+
+            isProductStatusGot = true;
+            if(mProductStatusGotListener != null){
+                mProductStatusGotListener.onProductStatusGot(list);
             }
+        }else{
+            notConnectedToGooglePlay();
         }
     }
 
-    public void consumeProductForTestPurpose(String purchaseToken, String payload){
+    public void consumeProduct(String purchaseToken, String payload){
         ConsumeParams consumeParams =
                 ConsumeParams.newBuilder()
                         .setPurchaseToken(purchaseToken)
@@ -348,45 +373,112 @@ public class ConnectToPlay  extends YHYManager{
                 public void onConsumeResponse(BillingResult billingResult, String s) {
 
 
+                    if(mAfterConsumeListener != null){
+                        mAfterConsumeListener.afterConsume(billingResult,s);
+                    }
                 }
             });
+        }else{
+            notConnectedToGooglePlay();
+        }
+    }
+
+    private void notConnectedToGooglePlay(){
+        super.showToastMessage(activity,activity.getString(R.string.not_connected_to_google));
+
+    }
+
+    private void updateOwnedProductsOnDB(HashMap<String,Purchase>  boughtLlist ){
+
+        for(String appSku : super.listApplicationSKU){
+            Purchase item = boughtLlist.get(appSku);
+
+            if(item == null){
+                BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(false,appSku);
+            }
+
+        }
+
+
+
+
+    }
+
+
+    private HashMap<String,Purchase> initHashMapPurchaseDetails(List<Purchase> listOfSkuProductDetails){
+        hashMapPurchaseDetails = new HashMap<>();
+        for(Purchase purchase : listOfSkuProductDetails){
+            for(String productName : listApplicationSKU){
+                if(purchase.getSku().equals(productName)){
+                    hashMapPurchaseDetails.put(productName,purchase);
+                }
+            }
+        }
+
+        return hashMapPurchaseDetails;
+    }
+
+    private HashMap<String,SkuDetails> initHashMapSkuDetails(List<SkuDetails> listOfSkuProductDetails){
+        hashMapSkuDetails = new HashMap<>();
+
+
+        for(SkuDetails skuDetails : listOfSkuProductDetails){
+
+            for(String productName : listApplicationSKU){
+                if(skuDetails.getSku().equals(productName)){
+                    hashMapSkuDetails.put(productName,skuDetails);
+                }
+
+            }
+
+        }
+
+        return hashMapSkuDetails;
+    }
+
+
+    public ConnectToPlay setInAppPurchaseListener(InAppPurchaseListener listener){
+
+        mInAppPurchaseListener = listener;
+
+        return this;
+    }
+
+    public ConnectToPlay setProductStatusGotListener(ProductStatusGotListener listener){
+
+        mProductStatusGotListener = listener;
+
+        return this;
+    }
+
+    public ConnectToPlay setAfterConsumeListener(AfterConsumeListener listener){
+
+        mAfterConsumeListener = listener;
+        return this;
+    }
+
+    public ConnectToPlay setAfterAcknowledgePurchaseResponseListener(AfterAcknowledgePurchaseResponseListener listener){
+
+        this.mAfterAcknowledgePurchaseResponseListener = listener;
+
+        return this;
+    }
+
+    public boolean whatIsProductStatus(String skuName){
+
+
+        if(isProductStatusGot) {
+            return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
+        }else{
+
+            super.showToastMessage(activity,"You called this function before initialization Of GooglePlay, Use" +
+                    "setProductStatusGotListener method. If you dont, this method always return false");
+
+            return false;
+
         }
     }
 
 
 
-    //It return all bought items consumed and nonconsumed not best practice
-    /*private void getLatestPurchaseList(){
-
-        if (billingClient != null){
-
-            billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
-                @Override
-                public void onPurchaseHistoryResponse(BillingResult billingResult, List<PurchaseHistoryRecord> purchasesList) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchasesList != null) {
-                        for (PurchaseHistoryRecord purchase : purchasesList) {
-
-                            //commentden cikarilcak
-                            if(purchase.getSku().equals(skuPro)){
-
-
-                                DataManager.showToastMessage(getMainActivity(), getString(R.string.pro_succesfully_bought));
-                                dbSqlite.updateStatus();
-                                getMainActivity().restartApp();
-                            }
-
-
-                        }
-
-                        if(purchasesList.size() == 0){
-                            DataManager.showToastMessage(getMainActivity(), getString(R.string.no_purchase));
-
-                        }
-                    }
-                }
-            });
-
-
-        }
-    }*/
 }

@@ -28,7 +28,7 @@ public abstract class BillingDB extends RoomDatabase {
             synchronized (BillingDB.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            BillingDB.class, YHYManager.DATABASE_NAME).addCallback(dbCallback)
+                            BillingDB.class, YHYManager.DATABASE_NAME)/*addCallback(dbCallback)*/
                             .allowMainThreadQueries().build();
 
 
@@ -41,7 +41,7 @@ public abstract class BillingDB extends RoomDatabase {
 
 
     //This Method In App first Time start init db
-    private static RoomDatabase.Callback dbCallback = new RoomDatabase.Callback() {
+   /* private static RoomDatabase.Callback dbCallback = new RoomDatabase.Callback() {
         public void onCreate(SupportSQLiteDatabase db) {
 
             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
@@ -49,10 +49,12 @@ public abstract class BillingDB extends RoomDatabase {
                 public void run() {
 
 
-                    for(String skuName : ConnectToPlay.getInstance().listApplicationSKU) {
+                    for(String skuName : ConnectToPlay.listApplicationSKU) {
                         
                         Cursor cursor = BillingDB.getDatabase(ctx).purchaseStatusDAO().isProductInsertedToDB(skuName);
-                        if (cursor !=null && cursor.getCount() == 0) {
+                        int k = cursor.getCount();
+
+                        if (cursor !=null && k< 1) {
                             EntityPurchaseStatus item = new EntityPurchaseStatus();
                             item.setProductName(skuName);
                             item.setBought(false);
@@ -65,5 +67,5 @@ public abstract class BillingDB extends RoomDatabase {
                 }
             });
         }
-    };
+    };*/
 }

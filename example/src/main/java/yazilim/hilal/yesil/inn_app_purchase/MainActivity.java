@@ -1,134 +1,111 @@
 package yazilim.hilal.yesil.inn_app_purchase;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 
-import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
 
+import java.util.HashMap;
 import java.util.List;
 
 import yazilim.hilal.yesil.inn_app_purchase.databinding.ActivityMainBinding;
-import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
-import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.BillingDB;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterAcknowledgePurchaseResponseListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterConsumeListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.ProductStatusGotListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.ConnectToPlay;
-import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.EntityPurchaseStatus;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.PurchaseStatus;
 
 public class MainActivity extends AppCompatActivity {
 
-    public ActivityMainBinding binding;
-    private List<SkuDetails> listOfAllAppSKU;
+
+
+    private ActivityMainBinding binding;
+
+    private HashMap<String, Purchase> hashMapPurchaseDetails = new HashMap<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        ConnectToPlay.startToWork(ConnectToPlay.CallType.GetPriceProducts)
-                .setmInAppPurchaseListener(new InAppPurchaseListener() {
+
+
+
+        ConnectToPlay.getInstance().initForActivity(this).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+                setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
-                    public void returnAllProductsDetailsFromPlayStore(List<SkuDetails> listUserBoughtSku) {
-                        listOfAllAppSKU = listUserBoughtSku;
-                        setPrice();
-                    }
+                    public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
+                    MainActivity.this.hashMapPurchaseDetails = hashMapPurchaseDetails;
 
-                    @Override
-                    public void isPruductBought(PurchaseStatus statusOfPurchase) {
+                        for (String sku : App.listOfApplicationSKU){
+                           boolean status = ConnectToPlay.getInstance().whatIsProductStatus(sku);
+                            switch (sku){
 
-                        for (String sku : App.listOfApplicationSKU) {
-
-                            if(sku.equals(statusOfPurchase.getSkuName())){
-
-                                EntityPurchaseStatus status = new EntityPurchaseStatus();
-                                status.setProductName(sku);
-
-                                if (statusOfPurchase.isBought()) {
-
-                                    status.setBought(true);
-                                    BillingDB.getDatabase(MainActivity.this).purchaseStatusDAO().updatePurchaseStatus(status);
-
-                                } else {
-                                    BillingDB.getDatabase(MainActivity.this).purchaseStatusDAO().updatePurchaseStatus(status);
-                                    status.setBought(false);
-
-                                }
-
+                                case  "bor":
+                                    binding.statusOfBor.setText(statusOfProduct(status));
+                                    break;
+                                case  "gas":
+                                    binding.statusOfGas.setText(statusOfProduct(status));
+                                    break;
+                                case  "noads":
+                                    binding.statusOfNoads.setText(statusOfProduct(status));
+                                    break;
+                                case  "pro":
+                                    binding.statusOfPro.setText(statusOfProduct(status));
+                                    break;
+                                case  "sun":
+                                    binding.statusOfSun.setText(statusOfProduct(status));
+                                    break;
                             }
-
                         }
 
-                    }
 
-                    @Override
-                    public void listOfStatusProducts(List<PurchaseStatus> listOfBoughtProducts) {
+
 
                     }
-                });
+                }).setAfterConsumeListener(new AfterConsumeListener() {
+            @Override
+            public void afterConsume(BillingResult billingResult, String s) {
 
 
-        binding.btnOfBor.setOnClickListener(v->{
-
-
-
-        });
-
-        binding.btnOfGas.setOnClickListener(v->{
-
-        });
-
-        binding.btnOfNoads.setOnClickListener(v->{
-
-        });
-
-        binding.btnOfPro.setOnClickListener(v->{
-
-        });
-
-
-        binding.btnOfSun.setOnClickListener(v->{
-
-        });
-    }
-
-
-    private void setPrice(){
-
-
-        for (SkuDetails sku : listOfAllAppSKU){
-
-            switch (sku.getSku()){
-
-                case "bor":
-
-                    binding.btnOfBor.setText(binding.btnOfBor.getText()+" ("+ sku.getPrice()+")");
-                    break;
-                case "gas":
-
-                    binding.btnOfGas.setText(binding.btnOfGas.getText()+" ("+ sku.getPrice()+")");
-                    break;
-
-                case "noads":
-
-                    binding.btnOfNoads.setText(binding.btnOfNoads.getText()+" ("+ sku.getPrice()+")");
-                    break;
-
-                case "pro":
-
-                    binding.btnOfPro.setText(binding.btnOfPro.getText()+" ("+ sku.getPrice()+")");
-                    break;
-
-                case "sun":
-
-                    binding.btnOfSun.setText(binding.btnOfSun.getText()+" ("+ sku.getPrice()+")");
-                    break;
 
             }
+        }).setAfterAcknowledgePurchaseResponseListener(new AfterAcknowledgePurchaseResponseListener() {
+            @Override
+            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
-        }
+            }
+        });
 
+
+
+
+
+
+        binding.btnPro.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this,ProFragment.class);
+            startActivity(intent);
+        });
     }
+
+
+
+
+    private String statusOfProduct(boolean status){
+
+        if(status){
+            return "Product Bought";
+        }else{
+            return "Is not bought";
+        }
+    }
+
 }

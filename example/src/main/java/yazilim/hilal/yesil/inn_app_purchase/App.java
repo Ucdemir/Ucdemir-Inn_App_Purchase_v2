@@ -24,7 +24,7 @@ public class App  extends Application {
         listOfApplicationSKU.add("sun");
 
 
-        ConnectToPlay.getInstance().initBilling(this,listOfApplicationSKU);
+        ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
 
     }
 }

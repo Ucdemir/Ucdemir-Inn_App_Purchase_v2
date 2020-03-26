@@ -16,7 +16,7 @@ import java.util.List;
 
      protected static final String DATABASE_NAME = "BillingDB";
      protected static final String TABLE_PURCHASE_STATUS = "purchase_status";
-     protected List<String> listApplicationSKU  = new ArrayList<>();
+     protected static List<String> listApplicationSKU  = new ArrayList<>();
 
 
     protected   void showToastMessage(Context context, String text){

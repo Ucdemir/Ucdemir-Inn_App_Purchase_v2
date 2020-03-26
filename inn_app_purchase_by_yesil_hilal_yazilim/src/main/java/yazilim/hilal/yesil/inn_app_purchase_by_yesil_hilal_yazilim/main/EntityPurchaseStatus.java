@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = YHYManager.TABLE_PURCHASE_STATUS)
 public class EntityPurchaseStatus  {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int uid;
 
     @ColumnInfo(name = "productName")

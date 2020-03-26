@@ -13,10 +13,17 @@ public interface DaoPurchaseStatus {
     @Insert
     public long insert(EntityPurchaseStatus data);
 
-    @Update
-    public void updatePurchaseStatus(EntityPurchaseStatus entity);
+    @Query("Select * from "+ YHYManager.TABLE_PURCHASE_STATUS + " where productName =:productName")
+    int getUID(String productName);
+
+    @Query("UPDATE "+ YHYManager.TABLE_PURCHASE_STATUS + " SET isBought=:isBought where productName =:productName")
+    public void  updatePurchaseStatus(boolean isBought, String productName);
+
+
+    @Query("Select isBought from "+ YHYManager.TABLE_PURCHASE_STATUS + " where productName =:productName")
+    boolean isProductBought(String productName);
 
 
     @Query("Select COUNT(*) from "+ YHYManager.TABLE_PURCHASE_STATUS + " where productName =:ProductName")
-     Cursor isProductInsertedToDB(String ProductName);
+     int getCountOfSKU(String ProductName);
 }
