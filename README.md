@@ -7,16 +7,22 @@
 and No multidex needed
 
 
-In Project  add:this
+In Project add:this
+
+
+```java
 allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
-  In your Project module (not app module) add the end:
+	
+```
+ 
+ and again project add 
 
-
+```java
 ext.sharedGroup = {dependencyHandler->
     delegate = dependencyHandler
     implementation 'com.android.billingclient:billing:2.1.0'
@@ -24,32 +30,48 @@ ext.sharedGroup = {dependencyHandler->
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     implementation 'com.kaopiz:kprogresshud:1.1.0'
 }
+```
 
 (Why you adding this? :
+
 Answer: this dependency can be use both app and library modules (less space))
 
   
   
   in main module add this:
-  	 implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
+ ```java
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
+```
 
-  below implemention add this:
+  below implemention add this as exactly typed below
+  
+   ```java
      sharedGroup dependencies
+```
 
 
 
+## How to use Library ?
 
-How to use Library ?
+AS you know every android application have one Application class... If you dont have Applcation class lets create
+
 
 In your project of Application class add list of your product skus:
 
+   ```java
+  public static List<String> listOfApplicationSKU;
+	
+```
 
+   ```java
         listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
+	
+```
         
   and init  to library:
   
