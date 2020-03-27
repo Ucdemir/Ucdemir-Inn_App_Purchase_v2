@@ -1,6 +1,6 @@
 # Android Google Play Billing Library v:2.1.0 or newer
 
-* Library is supported for "INAPP"
+* Library is supported for "**INAPP**"
 * Subscription  will be supported later!
 * Library use Roomdb for your products, You dont need implementation to check status of product
 * Library use Shared dependency. Your app will be less sized
