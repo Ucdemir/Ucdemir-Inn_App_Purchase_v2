@@ -32,9 +32,9 @@ ext.sharedGroup = {dependencyHandler->
 }
 ```
 
-(Why you adding this? :
+### Why you adding this? :
 
-Answer: this dependency can be use both app and library modules (less space))
+Answer: this dependency can be use both app and library modules (less space)
 
   
   
@@ -83,6 +83,7 @@ In your MainActivity of your applcation:
 
 use this methods:
 
+   ```java
    ConnectToPlay.getInstance().initForActivity(this).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
@@ -104,42 +105,67 @@ use this methods:
             }
         });
 
+```
 
-If you need  listener for after consumed product you can set "afterConsume" listener, otherwise dont use it
+
+If you need  listener for after consumed product,
+
+you can set "afterConsume" listener, otherwise dont use it
+
+
 If you need Acknowledge listener use onAcknowledgePurchaseResponse listener otherwise dont use it.
-You have to use "setProductStatusGotListener" listener. Because Your application have to check products every time app start.
-this listener have to must call on Your application's MainActivity... 
+
+### You have to use "setProductStatusGotListener" listener.
+Because Your application have to check products every time app start.
+
+this listener have to call on Your application's MainActivity... 
+
 Google guide says this:
 
-Call queryPurchases() every time your app launches so that you can restore any purchases that a user has made since the app last stopped. Call queryPurchases() in your onResume() method, because a user can make a purchase when your app is in the background (for example, redeeming a promo code in the Google Play Store app).
+**Call queryPurchases() every time your app launches so that you can restore any purchases that a user has made since the app last stopped. Call queryPurchases() in your onResume() method, because a user can make a purchase when your app is in the background (for example, redeeming a promo code in the Google Play Store app).**
 
-You can call this listener for onResume if you want! "setProductStatusGotListener" calls after queryPurchases()  is executed..
+You can call this listener for onResume if you want!
+
+"setProductStatusGotListener" calls, after queryPurchases()  is executed..
+
 Our Library use RoomDB for you for your product.... If you want to check product status 
 
 you can use this method:
 
+   ```java
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
-
+  ```
+  
 sku parameter is your product name which added in application.
+
 You can check every product with 
+
+   ```java
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
-method
+  ```
 
 setProductStatusGotListener returns hasmaps 
+
 HashMap<String, Purchase> hashMapPurchaseDetails
 
-Why library return this?
-Answer: If you want to consume product
-use this:
+**Why library return this?**
+
+Answer: If you want to consume product use this:
+
+   ```java
 Purchase p = hashMapPurchaseDetails.get(sku);
 ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+  ```
+  
 Hasmap's first parameter name of product(sku)
+
 second paramter is Purchase Class off Google in app biling class
         
         
         
-In your App biling Actvity/Fragment use this:
+### In your App biling Actvity/Fragment use this:
 
+   ```java
    ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
                 .setInAppPurchaseListener(new InAppPurchaseListener() {
                     @Override
@@ -153,14 +179,20 @@ In your App biling Actvity/Fragment use this:
 
                 });
 
+  ```
 
-listener returnAllProductsDetailsFromPlayStore return HashMap:
+listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
+
 First parameter product name(sku)
+
 Second is Google SkuDetails:
 
-You need SkuDetails for buy product!
-For example If you have named "pro" product, You can call
+**You need SkuDetails for buy product!**
 
-  ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
+For example If you have named "pro" product, You can call
   
+  ```java
+  ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
+    ```
+    
   this method should used, in when user click to buy product
