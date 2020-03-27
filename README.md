@@ -50,7 +50,7 @@ ext.sharedGroup = {dependencyHandler->
 
 
 
-***Why you adding this? :
+***Why you adding this?***
 
 Answer: This dependency can be use both app and library modules (less space)
 
