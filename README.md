@@ -2,18 +2,20 @@
 
 * Library is supported for "**INAPP**"
 * Subscription  will be supported later!
-* Library use Roomdb for your products, You dont need implementation to check status of product
+* Library use Roomdb for your products, You dont need implementation to check status of your products
 * Library use Shared dependency. Your app will be less sized
-and No multidex needed
-* Library check producs status on everytime app starts. You can get status(buught or not)!
-* Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library making this for you! 
-* You can check example app!
+and no multidex needed
+* Library checks your products status on everytime app starts. You can get status(buught or not)!
+* Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
-
+* You can check example app!
 
 **Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
-Acknowledged.
+Acknowledged. Otherwise item wil be refunded! This is Google rule!
+
 **You can't use example project with emulator since it doesnot have play store
+
+## Implementation
 
 In your application manifest don't forget to add permission
 
