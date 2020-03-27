@@ -10,10 +10,10 @@ and no multidex needed
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 * You can check example app!
 
-**Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
-Acknowledged. Otherwise item wil be refunded! This is Google rule!
+ **Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
+Acknowledged. Otherwise item wil be refunded! This is Google rule!**
 
-**You can't use example project with emulator since it doesnot have play store
+**You can't use example project with emulator since it doesnot have play store**
 
 ## Implementation
 
