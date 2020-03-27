@@ -50,9 +50,9 @@ ext.sharedGroup = {dependencyHandler->
 
 
 
-### Why you adding this? :
+***Why you adding this? :
 
-**Answer: This dependency can be use both app and library modules (less space)**
+Answer: This dependency can be use both app and library modules (less space)
 
   
   
@@ -97,7 +97,7 @@ In your project of Application class, add list of your product skus:
         ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
         
         
-### MainActivity:
+#### MainActivity:
 
 use this methods:
 
@@ -130,13 +130,13 @@ If you need  listener for after consumed product, you can set "afterConsume" lis
 
 If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
 
-### You have to use "setProductStatusGotListener" listener.
+***You have to use "setProductStatusGotListener" listener.***
 
 Because Your application have to check products every time app start.
 
 this listener, have to call on Your application's **MainActivity** 
 
-## Note: "startToWork" function have enum parameter
+**Note: "startToWork" function have enum parameter***
 
 
    ```java
@@ -145,9 +145,9 @@ this listener, have to call on Your application's **MainActivity**
         CheckProductStatus,
     }
   ```
-**Use  CheckProductStatus in your MainActivity
+**Use  CheckProductStatus in your MainActivity**
 
-**Use GetPriceProducts in your billing Actvity/fragment
+**Use GetPriceProducts in your billing Actvity/fragment**
 
 Google guide says this:
 
@@ -220,8 +220,9 @@ Second is Google SkuDetails:
 
 For example If you have named "pro" product, You can call
   
+  
   ```java
   ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
-    ```
+  ```
     
   this method should used, in when user click to buy product
