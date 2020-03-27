@@ -11,9 +11,9 @@ and No multidex needed
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 
 
-** Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
+**Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
 Acknowledged.
-** You can't use example project with emulator since it doesnot have play store
+**You can't use example project with emulator since it doesnot have play store
 
 In your application manifest don't forget to add permission
 
