@@ -1,4 +1,4 @@
-+# Android Google Play Billing Library
+
 
 Note: Library is supported for "INAPP"
 Subscription  will be supported later!
