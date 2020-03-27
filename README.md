@@ -1,7 +1,10 @@
+# Android Google Play Billing Library
 
-
-Note: Library is supported for "INAPP"
-Subscription  will be supported later!
+* Library is supported for "INAPP"
+* Subscription  will be supported later!
+* Library use Roomdb for your products,You dont need implementation for this
+* Library use Shared dependency. In your app and library use same dependency, Your app will be less sized
+and No multidex needed
 
 
 In Project  add:this
