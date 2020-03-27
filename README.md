@@ -71,7 +71,7 @@ after above implemention, add this as exactly typed
 
 ## How to use Library ?
 
-As you know, every android application have one Application class... If you dont have Applcation class, lets create
+As you know, every android application have one Application class... If you dont have Application class, lets create
 
 
 In your project of Application class, add list of your product skus:
@@ -97,7 +97,7 @@ In your project of Application class, add list of your product skus:
         ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
         
         
-### In your MainActivity:
+### MainActivity:
 
 use this methods:
 
@@ -127,7 +127,6 @@ use this methods:
 
 
 If you need  listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
-
 
 If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
 
@@ -166,7 +165,7 @@ you can use this method:
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
   ```
   
-sku parameter is your product name which added in application.
+sku is your product name which is added in application.
 
 You can check every product with 
 
