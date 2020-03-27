@@ -54,7 +54,7 @@ import java.util.List;
                 public void run() {
                     System.exit(0);
                 }
-            }, 2000);
+            }, 5000);
 
         } catch (ClassNotFoundException e) {
             showToastMessage(context,"Your Application's Main Activity is not found");

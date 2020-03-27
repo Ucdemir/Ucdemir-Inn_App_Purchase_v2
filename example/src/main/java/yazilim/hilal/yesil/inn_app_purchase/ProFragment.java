@@ -42,6 +42,7 @@ public class ProFragment extends AppCompatActivity {
                         ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
                         setPrice();
 
+
                         ConnectToPlay.getInstance().hideHud();
                     }
 

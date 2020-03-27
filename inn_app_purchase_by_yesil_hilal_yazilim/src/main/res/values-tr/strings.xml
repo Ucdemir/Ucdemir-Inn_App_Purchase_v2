@@ -5,8 +5,10 @@
     <string name="already_purchased">Bu ürünü zaten satın almışsınız</string>
     <string name="not_connected_to_google">Google Playe bağlı değilsiniz</string>
     <string name="user_canceled_purchase">Satın almayı iptal ettiniz</string>
+    <string name="purchase_is_on_pending">Satın almaya çalıştığınız ürün, bank onayladığında gerçekleşcektir</string>
+    <string name="purchase_acknowledged">Satın aldığınız ürünler güncellendi"</string>
 
-    <string name="error_occurred">Hata oluştu</string>
+    <string name="error_occurred">Hata oluştu. Satın alma başarısız</string>
     <string name="in_app_purchase_is_not_suppored">Uygulama içi alışveriş cihazınızda desteklenmiyor</string>
     <string name="succuss_buy">Başarıyla satın aldınız...</string>
     <string name="no_purchase">Hiç bir şey satın almamışsınız</string>

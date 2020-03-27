@@ -44,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
                     MainActivity.this.hashMapPurchaseDetails = hashMapPurchaseDetails;
-
+                    
                         for (String sku : App.listOfApplicationSKU){
+
+
                            boolean status = ConnectToPlay.getInstance().whatIsProductStatus(sku);
                             switch (sku){
 

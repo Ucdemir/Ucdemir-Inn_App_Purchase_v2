@@ -168,10 +168,13 @@ public class ConnectToPlay  extends YHYManager{
                 @Override
                 public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
-
+                    ConnectToPlay.super.showToastMessage(activity,activity.getString(R.string.purchase_acknowledged));
                     if(mAfterAcknowledgePurchaseResponseListener != null){
                         mAfterAcknowledgePurchaseResponseListener.onAcknowledgePurchaseResponse(billingResult);
                     }
+
+
+                    ConnectToPlay.super.restartApp(activity);
                 }
             };
 
@@ -199,8 +202,6 @@ public class ConnectToPlay  extends YHYManager{
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
 
             super.showToastMessage(activity, activity.getString(R.string.already_purchased));
-
-
 
 
         }
@@ -268,18 +269,27 @@ public class ConnectToPlay  extends YHYManager{
 
     //Making Acknowledged
     private void checkIsAcknowledged(Purchase purchase){
-        if (!purchase.isAcknowledged()) {
-            AcknowledgePurchaseParams acknowledgePurchaseParams =
-                    AcknowledgePurchaseParams.newBuilder()
-                            .setPurchaseToken(purchase.getPurchaseToken())
-                            .setDeveloperPayload(purchase.getDeveloperPayload())
-                            .build();
-            if(mBillingClient != null) {
 
-                mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
-            }else{
-                notConnectedToGooglePlay();
+        if(purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged()) {
+                AcknowledgePurchaseParams acknowledgePurchaseParams =
+                        AcknowledgePurchaseParams.newBuilder()
+                                .setPurchaseToken(purchase.getPurchaseToken())
+                                .setDeveloperPayload(purchase.getDeveloperPayload())
+                                .build();
+                if (mBillingClient != null) {
+
+                    mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
+                } else {
+                    notConnectedToGooglePlay();
+                }
             }
+
+        }else if(purchase.getPurchaseState() == Purchase.PurchaseState.PENDING){
+            int k = 1;
+        }else{
+
+            int k = 1;
         }
     }
 
@@ -292,17 +302,17 @@ public class ConnectToPlay  extends YHYManager{
 
                 if (boughtPurchase.getSku().equals(appSkuName)) {
 
-                    if (!boughtPurchase.isAcknowledged()) {
-                        checkIsAcknowledged(boughtPurchase);
-                    }
+
 
                     BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true
                             ,boughtPurchase.getSku());
 
                     super.showToastMessage(activity, activity.getString(R.string.succuss_buy));
-                    super.restartApp(activity);
 
 
+                    if (!boughtPurchase.isAcknowledged()) {
+                        checkIsAcknowledged(boughtPurchase);
+                    }
                     break a;
                 }
 
@@ -312,6 +322,8 @@ public class ConnectToPlay  extends YHYManager{
 
         else if (boughtPurchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
 
+
+            super.showToastMessage(activity,activity.getString(R.string.purchase_is_on_pending));
         }
 
         if (mInAppPurchaseListener != null) {
@@ -332,19 +344,17 @@ public class ConnectToPlay  extends YHYManager{
             Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
             List<Purchase> listOfAllProducts = purchasesResult.getPurchasesList();
 
-            for (Purchase item : listOfAllProducts) {
-                a:for (String appSku : listApplicationSKU) {
+            a:for (Purchase item : listOfAllProducts) {
+                for (String appSku : listApplicationSKU) {
 
                     if (item.getSku().equals(appSku)) {
 
-                        BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true,item.getSku());
-
-                        break a;
+                        if(item.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                            BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true, item.getSku());
+                            checkIsAcknowledged(item);
+                        }
                     }
                 }
-
-                checkIsAcknowledged(item);
-
             }
 
             HashMap<String,Purchase>  list = initHashMapPurchaseDetails(listOfAllProducts);
