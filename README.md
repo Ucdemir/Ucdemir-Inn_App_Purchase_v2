@@ -97,7 +97,7 @@ In your project of Application class, add list of your product skus:
         ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
         
         
-**In your MainActivity of your application:**
+### In your MainActivity:
 
 use this methods:
 
@@ -136,6 +136,19 @@ If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Ot
 Because Your application have to check products every time app start.
 
 this listener, have to call on Your application's **MainActivity** 
+
+## Note: "startToWork" function have enum parameter
+
+
+   ```java
+    public enum CallType{
+        GetPriceProducts,
+        CheckProductStatus,
+    }
+  ```
+**Use  CheckProductStatus in your MainActivity
+
+**Use GetPriceProducts in your billing Actvity/fragment
 
 Google guide says this:
 
