@@ -5,8 +5,8 @@
 * Library use Roomdb for your products, You dont need implementation to check status of product
 * Library use Shared dependency. Your app will be less sized
 and No multidex needed
-* Library checks product status on everytime app starts. You can check product status!
-* Every product bought by user need to be " Acknowledged." Library making this for you! 
+* Library check producs status on everytime app starts. You can get status(buught or not)!
+* Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library making this for you! 
 * You can check example app!
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 
