@@ -13,11 +13,11 @@ and no multidex needed
  **Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
 Acknowledged. Otherwise item wil be refunded! This is Google rule!**
 
-**You can't use example project with emulator since it doesnot have play store**
+**You can't use example project with emulator since it does not have play store**
 
 ## Implementation
 
-In your application manifest don't forget to add permission
+don't forget to add permission to manifest
 
 ```android
 <uses-permission android:name="com.android.vending.BILLING"/>
@@ -52,7 +52,7 @@ ext.sharedGroup = {dependencyHandler->
 
 ### Why you adding this? :
 
-**Answer: this dependency can be use both app and library modules (less space)**
+**Answer: This dependency can be use both app and library modules (less space)**
 
   
   
@@ -61,7 +61,7 @@ ext.sharedGroup = {dependencyHandler->
   implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
 ```
 
-  below implemention, add this as exactly typed below
+after above implemention, add this as exactly typed
   
    ```java
      sharedGroup dependencies
@@ -74,7 +74,7 @@ ext.sharedGroup = {dependencyHandler->
 As you know, every android application have one Application class... If you dont have Applcation class, lets create
 
 
-In your project of Application class add list of your product skus:
+In your project of Application class, add list of your product skus:
 
    ```java
   public static List<String> listOfApplicationSKU;
@@ -126,12 +126,10 @@ use this methods:
 ```
 
 
-If you need  listener for after consumed product,
-
-you can set "afterConsume" listener, otherwise dont use it
+If you need  listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
 
 
-.If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
+If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
 
 ### You have to use "setProductStatusGotListener" listener.
 
