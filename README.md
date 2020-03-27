@@ -2,11 +2,11 @@
 
 * Library is supported for "INAPP"
 * Subscription  will be supported later!
-* Library use Roomdb for your products,You dont need implementation to check status of product, for this
-* Library use Shared dependency. In your app and library use same dependency, Your app will be less sized
+* Library use Roomdb for your products, You dont need implementation to check status of product
+* Library use Shared dependency. Your app will be less sized
 and No multidex needed
-* Library checks product status everytime app starts. You can check product status with given below functions
-* Every product bought by user need to be " Acknowledged", Library making this for you! 
+* Library checks product status on everytime app starts. You can check product status!
+* Every product bought by user need to be " Acknowledged." Library making this for you! 
 * You can check example app!
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 
@@ -15,6 +15,11 @@ and No multidex needed
 Acknowledged.
 ** You can't use example project with emulator since it doesnot have play store
 
+In your application manifest don't forget to add permission
+
+```android
+<uses-permission android:name="com.android.vending.BILLING"/>
+```
 
 In Project mobule add this:
 
@@ -41,11 +46,7 @@ ext.sharedGroup = {dependencyHandler->
 }
 ```
 
-In your application manifest don't forget to add permission
 
-```android
-<uses-permission android:name="com.android.vending.BILLING"/>
-```
 
 ### Why you adding this? :
 
