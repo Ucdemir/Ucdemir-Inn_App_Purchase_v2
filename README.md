@@ -1,13 +1,22 @@
-# Android Google Play Billing Library
+# Android Google Play Billing Library v:2.1.0 or newer
 
 * Library is supported for "INAPP"
 * Subscription  will be supported later!
-* Library use Roomdb for your products,You dont need implementation for this
+* Library use Roomdb for your products,You dont need implementation to check status of product, for this
 * Library use Shared dependency. In your app and library use same dependency, Your app will be less sized
 and No multidex needed
+* Library checks product status everytime app starts. You can check product status with given below functions
+* Every product bought by user need to be " Acknowledged", Library making this for you! 
+* You can check example app!
+* Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 
 
-In Project add:this
+** Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
+Acknowledged.
+** You can't use example project with emulator since it doesnot have play store
+
+
+In Project mobule add this:
 
 
 ```java
@@ -20,7 +29,7 @@ allprojects {
 	
 ```
  
- and again project add 
+ and again project module  add 
 
 ```java
 ext.sharedGroup = {dependencyHandler->
@@ -32,9 +41,15 @@ ext.sharedGroup = {dependencyHandler->
 }
 ```
 
+In your application manifest don't forget to add permission
+
+```android
+<uses-permission android:name="com.android.vending.BILLING"/>
+```
+
 ### Why you adding this? :
 
-Answer: this dependency can be use both app and library modules (less space)
+**Answer: this dependency can be use both app and library modules (less space)**
 
   
   
@@ -43,7 +58,7 @@ Answer: this dependency can be use both app and library modules (less space)
   implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
 ```
 
-  below implemention add this as exactly typed below
+  below implemention, add this as exactly typed below
   
    ```java
      sharedGroup dependencies
@@ -53,7 +68,7 @@ Answer: this dependency can be use both app and library modules (less space)
 
 ## How to use Library ?
 
-AS you know every android application have one Application class... If you dont have Applcation class lets create
+As you know, every android application have one Application class... If you dont have Applcation class, lets create
 
 
 In your project of Application class add list of your product skus:
@@ -79,7 +94,7 @@ In your project of Application class add list of your product skus:
         ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
         
         
-In your MainActivity of your applcation:
+**In your MainActivity of your application:**
 
 use this methods:
 
@@ -113,12 +128,13 @@ If you need  listener for after consumed product,
 you can set "afterConsume" listener, otherwise dont use it
 
 
-If you need Acknowledge listener use onAcknowledgePurchaseResponse listener otherwise dont use it.
+.If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
 
 ### You have to use "setProductStatusGotListener" listener.
+
 Because Your application have to check products every time app start.
 
-this listener have to call on Your application's MainActivity... 
+this listener, have to call on Your application's **MainActivity** 
 
 Google guide says this:
 
@@ -144,9 +160,9 @@ You can check every product with
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
   ```
 
-setProductStatusGotListener returns hasmaps 
+setProductStatusGotListener returns Hasmaps 
 
-HashMap<String, Purchase> hashMapPurchaseDetails
+***HashMap<String, Purchase> hashMapPurchaseDetails***
 
 **Why library return this?**
 
