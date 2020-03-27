@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
+
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
 
 
@@ -44,7 +45,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
                     MainActivity.this.hashMapPurchaseDetails = hashMapPurchaseDetails;
-                    
+
+
+                     /*Purchase p = hashMapPurchaseDetails.get("bor");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+
+                       /*  p = hashMapPurchaseDetails.get("gas");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
+
+
                         for (String sku : App.listOfApplicationSKU){
 
 
