@@ -56,7 +56,7 @@ Answer: This dependency can be use both app and library modules (less space)
 
   
   
-  in main module add this:
+ **in main module add this:**
  ```java
   implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
 ```
