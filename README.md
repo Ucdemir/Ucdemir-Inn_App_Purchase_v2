@@ -234,7 +234,7 @@ For example: If you have named "pro" product, You must call in button to start b
   
   ```java
   ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
-  ``
+  ```
   
   
   For more details, view example!
