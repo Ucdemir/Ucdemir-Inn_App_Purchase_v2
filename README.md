@@ -76,13 +76,14 @@ Answer: This dependencies can be use on every module your app have.. So less siz
 ## How to use Library ?
 
         
-#### MainActivity:
+#### In your MainActivity:
 
 use this methods:
  ```java
     public static List<String> listOfApplicationSKU;
    ```
 
+Add your product names(SKU):
 
 
   ```java
