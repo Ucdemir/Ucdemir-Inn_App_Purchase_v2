@@ -84,7 +84,7 @@ Create String ArrayList:
     public static List<String> listOfApplicationSKU;
    ```
 
-Add your product names(SKU):
+Add your products names(SKU):
 
 
   ```java
@@ -94,7 +94,12 @@ Add your product names(SKU):
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
+      ```
    
+   
+Call StartToWork with Enum parameter CallType.CheckProductStatus. This method checks of all your products status. User bought or rejected. call billingSKUS after initActivity with passing all of your skus 
+
+```java
    ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
