@@ -82,27 +82,27 @@ Create String ArrayList:
 
  ```java
     public static List<String> listOfApplicationSKU;
-
+```
  
 
-**Add your products names(SKU)**
+***Add your products names(SKU)***
 
 
-
+ ```java
      listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
-   
-   
+
+  ``` 
 Call StartToWork with Enum parameter CallType.CheckProductStatus. 
 This method checks of all your products status. User bought or rejected. 
 call billingSKUS after initActivity with passing all of your skus 
 
 
-
+ ```java
 ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
@@ -123,8 +123,7 @@ ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationS
 
             }
         });
-
-```
+	```
 
 
 If you need  listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
