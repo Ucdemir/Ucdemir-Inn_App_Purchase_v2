@@ -13,16 +13,16 @@ You can test this library, with real device:
 
 * Library is supported for "**INAPP**"
 * Subscription  will be supported later!
-* Library use Roomdb for your products, You dont need implementation to check status of your products
+* Library use Roomdb for your products, You don’t need implementation to check status of your products
 * Library use Shared dependency. Your app will be less sized
 and no multidex needed
-* Library checks your products status on everytime app starts. You can get status(bought or not)!
+* Library checks your products status on every time app starts. You can get status(bought or not)!
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 * You can check example app!
 
- **Note: If user come situation with "**response late, purchase succus**", User need to use apps between three days for
-Acknowledged. Otherwise item wil be refunded! This is Google rule!**
+ **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
+Acknowledged. Otherwise item will be refunded! This is Google rule!**
 
 **You can't use example project with emulator since it does not have play store**
 
@@ -34,7 +34,7 @@ don't forget to add permission to manifest
 <uses-permission android:name="com.android.vending.BILLING"/>
 ```
 
-In Project mobule add this:
+In Project module add this:
 
 
 ```java
@@ -47,11 +47,11 @@ allprojects {
 	
 ```
  
-Again project module  add  this dependencies
+Again project module add this dependencies
 
  Note: You can have newer version of this libraries,
  
- More over, You must have billling,room and kprogresshud dependency!
+ Moreover, You must have billing, room and kprogresshud dependency!
 
 ```java
 ext.sharedGroup = {dependencyHandler->
@@ -86,14 +86,14 @@ Answer: This dependencies can be use on every module your app have.. So less siz
         
 ### MainActivity:
 
-Create String ArrayList:
+Create String Array List:
 
  ```java
     public static List<String> listOfApplicationSKU;
 ```
  
 
-***Add your products names(SKU)***
+***Add your products names (SKU)***
 
 
  ```java
@@ -134,15 +134,15 @@ ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationS
 ```
 
 
-If you need  listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
+If you need listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
 
-If you need Acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
+If you need acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
 
 ***You have to use "setProductStatusGotListener" listener.***
 
-Because Your application have to check products every time app start.
+Because your application have to check products every time app start.
 
-this listener, have to call on Your application's **MainActivity** 
+This listener, have to call on Your application's **MainActivity** 
 
 **Note: "startToWork" function have enum parameter***
 
@@ -196,11 +196,11 @@ ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPa
   
 Hasmap's first parameter name of product(sku)
 
-second paramter is Purchase Class off Google in app biling class
+second parameter is Purchase Class off Google in app billing class
         
         
         
-### In your App biling Actvity/Fragment use this:
+### In your App billing Actvity/Fragment use this:
 
    ```java
    ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
@@ -218,7 +218,7 @@ second paramter is Purchase Class off Google in app biling class
 
   ```
 
-You can remove hud, if you dont want spinner.
+You can remove hud, if you don’t want spinner.
 **Be Attention, There is no billingSKUS() function on this**
 
 listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
@@ -236,4 +236,4 @@ For example: If you have named "pro" product, You must call in button to start b
   ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
   ```
     
-  this method should used, in when user click to buy product
+  This method should used, in when user click to buy product
