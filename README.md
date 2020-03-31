@@ -1,8 +1,8 @@
 # Android Google Play Billing Library v:2.1.0 or newer
 
 
-
-[You can test this library, with real device](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
+You can test this library, with real device:
+[Browse on Google Play](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
 
 
 * Library is supported for "**INAPP**"
