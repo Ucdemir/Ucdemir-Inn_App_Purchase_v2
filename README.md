@@ -43,8 +43,10 @@ allprojects {
 	
 ```
  
- and again project module  add  this dependencies
+Again project module  add  this dependencies
+
  Note: You can have newer version of this libraries,
+ 
  More over, You must have billling,room and kprogresshud dependency!
 
 ```java
