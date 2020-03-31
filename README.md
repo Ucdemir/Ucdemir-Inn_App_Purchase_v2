@@ -76,7 +76,7 @@ Answer: This dependencies can be use on every module your app have.. So less siz
 ## How to use Library ?
 
         
-#### MainActivity:
+### MainActivity:
 
 Create String ArrayList:
 
@@ -94,12 +94,15 @@ Add your products names(SKU):
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
+	
      ```
    
    
 Call StartToWork with Enum parameter CallType.CheckProductStatus. This method checks of all your products status. User bought or rejected. call billingSKUS after initActivity with passing all of your skus 
 
-```java   ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+```java
+
+ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
