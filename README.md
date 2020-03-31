@@ -88,11 +88,11 @@ In your project of Application class, add list of your product skus:
 use this methods:
  ```java
     public static List<String> listOfApplicationSKU;
-    ```
+   ```
 
 
 
-   ```java
+  ```java
      listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
