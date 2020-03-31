@@ -123,7 +123,7 @@ ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationS
 
             }
         });
-	```
+```
 
 
 If you need  listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
