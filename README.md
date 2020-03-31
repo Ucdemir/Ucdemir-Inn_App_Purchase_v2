@@ -209,7 +209,7 @@ second paramter is Purchase Class off Google in app biling class
   ```
 
 You can remove hud, if you dont want spinner.
-**Be Attention, There is no billingSKUS(9 function on this**
+**Be Attention, There is no billingSKUS() function on this**
 
 listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
 
