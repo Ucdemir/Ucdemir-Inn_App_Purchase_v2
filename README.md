@@ -59,7 +59,7 @@ ext.sharedGroup = {dependencyHandler->
 
 ***Why you adding this?***
 
-Answer: This dependency can be use both app and library modules (less space)
+Answer: This dependencies can be use on every module your app have.. So less size, No multidex!
 
   
   
