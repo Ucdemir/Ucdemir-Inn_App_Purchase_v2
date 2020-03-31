@@ -80,33 +80,28 @@ As you know, every android application have one Application class... If you dont
 
 In your project of Application class, add list of your product skus:
 
-   ```java
-  public static List<String> listOfApplicationSKU;
-	
-```
 
-   ```java
-      List<String> = listOfApplicationSKU = new ArrayList<>();
-        listOfApplicationSKU.add("bor");
-        listOfApplicationSKU.add("gas");
-        listOfApplicationSKU.add("noads");
-        listOfApplicationSKU.add("pro");
-        listOfApplicationSKU.add("sun");
-	
-```
-        
-  and init  to library:
-  
-  
-        ConnectToPlay.initBillingForApp(this,listOfApplicationSKU);
         
         
 #### MainActivity:
 
 use this methods:
+ ```java
+    public static List<String> listOfApplicationSKU;
+```
+
+
 
    ```java
-   ConnectToPlay.getInstance().initForActivity(this).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+   
+     listOfApplicationSKU = new ArrayList<>();
+        listOfApplicationSKU.add("bor");
+        listOfApplicationSKU.add("gas");
+        listOfApplicationSKU.add("noads");
+        listOfApplicationSKU.add("pro");
+        listOfApplicationSKU.add("sun");
+   
+   ConnectToPlay.getInstance().initForActivity(this).bllingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
