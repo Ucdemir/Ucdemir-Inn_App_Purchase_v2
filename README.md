@@ -17,7 +17,7 @@ and no multidex needed
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 * You can check example app!
 
- **Note: If user come situation with "**response late purchase succus**", User need to use apps between three days for
+ **Note: If user come situation with "**response late, purchase succus**", User need to use apps between three days for
 Acknowledged. Otherwise item wil be refunded! This is Google rule!**
 
 **You can't use example project with emulator since it does not have play store**
@@ -43,7 +43,9 @@ allprojects {
 	
 ```
  
- and again project module  add 
+ and again project module  add  this dependencies
+ Note: You can have newer version of this libraries,
+ More over, You must have billling,room and kprogresshud dependency!
 
 ```java
 ext.sharedGroup = {dependencyHandler->
