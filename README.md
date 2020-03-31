@@ -89,14 +89,12 @@ Create String ArrayList:
 
 
  ```java
-
      listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
-	
      ```
    
    
