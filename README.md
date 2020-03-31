@@ -75,13 +75,6 @@ Answer: This dependencies can be use on every module your app have.. So less siz
 
 ## How to use Library ?
 
-As you know, every android application have one Application class... If you dont have Application class, lets create
-
-
-In your project of Application class, add list of your product skus:
-
-
-        
         
 #### MainActivity:
 
