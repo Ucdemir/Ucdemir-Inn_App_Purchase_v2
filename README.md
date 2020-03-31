@@ -5,7 +5,7 @@
 * Library use Roomdb for your products, You dont need implementation to check status of your products
 * Library use Shared dependency. Your app will be less sized
 and no multidex needed
-* Library checks your products status on everytime app starts. You can get status(buught or not)!
+* Library checks your products status on everytime app starts. You can get status(bought or not)!
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
 * Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
 * You can check example app!
@@ -56,16 +56,13 @@ Answer: This dependency can be use both app and library modules (less space)
 
   
   
- **in main module add this:**
+ **in main module add this two lines:**
  ```java
   implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.4.5'
+   sharedGroup dependencies
 ```
 
-after above implemention, add this as exactly typed
-  
-   ```java
-     sharedGroup dependencies
-```
+
 
 
 
@@ -82,7 +79,7 @@ In your project of Application class, add list of your product skus:
 ```
 
    ```java
-        listOfApplicationSKU = new ArrayList<>();
+      List<String> = listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
         listOfApplicationSKU.add("noads");
@@ -218,7 +215,7 @@ Second is Google SkuDetails:
 
 **You need SkuDetails for buy product!**
 
-For example If you have named "pro" product, You can call
+For example: If you have named "pro" product, You can call
   
   
   ```java
