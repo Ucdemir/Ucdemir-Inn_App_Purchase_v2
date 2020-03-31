@@ -11,6 +11,7 @@ import android.os.PersistableBundle;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.Purchase
 
 public class MainActivity extends AppCompatActivity {
 
-
+    public static List<String> listOfApplicationSKU;
 
     private ActivityMainBinding binding;
 
@@ -35,12 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        listOfApplicationSKU = new ArrayList<>();
+        listOfApplicationSKU.add("bor");
+        listOfApplicationSKU.add("gas");
+        listOfApplicationSKU.add("noads");
+        listOfApplicationSKU.add("pro");
+        listOfApplicationSKU.add("sun");
+
+
+
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
 
 
 
 
-        ConnectToPlay.getInstance().initForActivity(this).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+        ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
@@ -54,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 
-                        for (String sku : App.listOfApplicationSKU){
+                        for (String sku : listOfApplicationSKU){
 
 
                            boolean status = ConnectToPlay.getInstance().whatIsProductStatus(sku);

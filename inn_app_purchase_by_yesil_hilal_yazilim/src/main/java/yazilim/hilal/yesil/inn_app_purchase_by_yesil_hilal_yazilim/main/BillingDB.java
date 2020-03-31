@@ -31,8 +31,6 @@ public abstract class BillingDB extends RoomDatabase {
                             BillingDB.class, YHYManager.DATABASE_NAME)/*addCallback(dbCallback)*/
                             .allowMainThreadQueries().build();
 
-
-
                 }
             }
         }

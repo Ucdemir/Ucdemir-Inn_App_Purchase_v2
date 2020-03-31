@@ -103,9 +103,9 @@ public class ConnectToPlay  extends YHYManager{
         return instance;
     }
 
-    public static void initBillingForApp(Application app,List<String> listApplicationSKU){
+    public  ConnectToPlay billingSKUS(List<String> listApplicationSKU){
         YHYManager.listApplicationSKU = listApplicationSKU;
-        DaoPurchaseStatus dao = BillingDB.getDatabase(app).purchaseStatusDAO();
+        DaoPurchaseStatus dao = BillingDB.getDatabase(activity).purchaseStatusDAO();
 
         for(String sku : listApplicationSKU){
            int count = dao.getCountOfSKU(sku);
@@ -118,7 +118,7 @@ public class ConnectToPlay  extends YHYManager{
         }
 
 
-
+        return instance;
 
     }
 
