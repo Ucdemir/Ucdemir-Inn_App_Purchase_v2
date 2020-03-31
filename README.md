@@ -78,7 +78,8 @@ Answer: This dependencies can be use on every module your app have.. So less siz
         
 #### In your MainActivity:
 
-use this methods:
+Create String ArrayList:
+
  ```java
     public static List<String> listOfApplicationSKU;
    ```
