@@ -1,4 +1,4 @@
-# Android Google Play Billing Library v:2.1.0 or newer
+# Android Google Play In APP Billing Library v:2.1.0 or newer
 **Yeşil Hilal Yazilim : As your service, Develop Future**
 
 
