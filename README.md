@@ -1,5 +1,10 @@
 # Android Google Play Billing Library v:2.1.0 or newer
 
+You can test this library, with real device:
+
+[link text itself]: https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_pu
+
+
 * Library is supported for "**INAPP**"
 * Subscription  will be supported later!
 * Library use Roomdb for your products, You dont need implementation to check status of your products
