@@ -1,6 +1,6 @@
 # Android Google Play Billing Library v:2.1.0 or newer
-## This Library is developed bY Yeşil Hilal Yazilim ##
-**As your service, Develop Future**
+**Yeşil Hilal Yazilim : As your service, Develop Future**
+
 
 
 You can test this library, with real device:
