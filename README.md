@@ -100,7 +100,7 @@ use this methods:
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
    
-   ConnectToPlay.getInstance().initForActivity(this).bllingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+   ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
@@ -207,6 +207,9 @@ second paramter is Purchase Class off Google in app biling class
                 });
 
   ```
+
+You can remove hud, if you dont want spinner.
+**Be Attention, There is no billingSKUS(9 function on this**
 
 listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
 
