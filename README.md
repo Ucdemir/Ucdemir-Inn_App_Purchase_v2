@@ -7,7 +7,7 @@ You can test this library, with real device:
 
 
 
-**Note: Google use cache functions.. That result some updates to be updated lately... If you want immediate update. Clear Google Play data from settings**
+**Note: Google use cache functions.. That result some updates to be updated lately... If you want immediate update. Clear Google Play Application data from device settings**
 
 
 
