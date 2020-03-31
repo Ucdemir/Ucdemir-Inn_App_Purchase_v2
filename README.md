@@ -82,13 +82,13 @@ Create String ArrayList:
 
  ```java
     public static List<String> listOfApplicationSKU;
-   ```
+
  
 
 **Add your products names(SKU)**
 
 
- ```java
+
      listOfApplicationSKU = new ArrayList<>();
         listOfApplicationSKU.add("bor");
         listOfApplicationSKU.add("gas");
