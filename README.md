@@ -95,12 +95,13 @@ Create String ArrayList:
         listOfApplicationSKU.add("noads");
         listOfApplicationSKU.add("pro");
         listOfApplicationSKU.add("sun");
-     ```
    
    
-Call StartToWork with Enum parameter CallType.CheckProductStatus. This method checks of all your products status. User bought or rejected. call billingSKUS after initActivity with passing all of your skus 
+Call StartToWork with Enum parameter CallType.CheckProductStatus. 
+This method checks of all your products status. User bought or rejected. 
+call billingSKUS after initActivity with passing all of your skus 
 
-```java
+
 
 ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
