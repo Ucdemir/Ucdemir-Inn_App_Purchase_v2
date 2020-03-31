@@ -2,6 +2,9 @@
 
 You can test this library, with real device:
 [Browse on Google Play](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
+[This Library designed as Google guide](https://developer.android.com/google/play/billing/billing_library_overviewe)
+
+
 
 **Note: Google use cache functions.. That result some updates to be updated lately... If you want immediate update. Clear Google Play data from settings**
 
@@ -159,7 +162,7 @@ Google guide says this:
 
 You can call this listener for onResume if you want!
 
-"setProductStatusGotListener" calls, after queryPurchases()  is executed..
+"setProductStatusGotListener" called, after queryPurchases()  is executed..
 
 Our Library use RoomDB for you for your product.... If you want to check product status 
 
@@ -169,7 +172,7 @@ you can use this method:
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
   ```
   
-sku is your product name which is added in application.
+sku is your product name which is added in MainActivity in to Arraylist.
 
 You can check every product with 
 
@@ -181,7 +184,7 @@ setProductStatusGotListener returns Hasmaps
 
 ***HashMap<String, Purchase> hashMapPurchaseDetails***
 
-**Why library return this?**
+**Why listener return this?**
 
 Answer: If you want to consume product use this:
 
@@ -225,7 +228,7 @@ Second is Google SkuDetails:
 
 **You need SkuDetails for buy product!**
 
-For example: If you have named "pro" product, You can call
+For example: If you have named "pro" product, You must call in button to start buying
   
   
   ```java
