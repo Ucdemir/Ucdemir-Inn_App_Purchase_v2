@@ -78,7 +78,7 @@ Answer: This dependencies can be use on every module your app have.. So less siz
   
  **in main module add this two lines:**
  ```java
-  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.0'
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.1'
   sharedGroup dependencies
 ```
 
