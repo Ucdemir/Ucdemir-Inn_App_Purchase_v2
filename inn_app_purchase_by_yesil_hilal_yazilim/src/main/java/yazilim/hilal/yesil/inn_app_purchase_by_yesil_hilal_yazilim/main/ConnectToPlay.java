@@ -326,14 +326,15 @@ public class ConnectToPlay  extends YHYManager{
             super.showToastMessage(activity,activity.getString(R.string.purchase_is_on_pending));
         }
 
-        if (mInAppPurchaseListener != null) {
-            mInAppPurchaseListener.isPruductBought(boughtPurchase.getPurchaseState());
-        }
+
     }
 
 
-    //It return all non-consumed items
+    //It return all non-consumed  tried to buy items which in PurchaseState.PURCHASED and PurchaseState.Pending
     //This method used in cached, for real time use queryPurchaseHistoryAsync()
+    //As Cached function, some items that rejected by bank it take time to update purchasesResult.getPurchasesList();
+    //After bank reject purchase, Item is not got by purchasesResult.getPurchasesList(); if you want immediate update,
+    //Delete Play Store data from device settings
     private void  getCachedQueryList(){
 
         isProductStatusGot = false;
@@ -344,25 +345,29 @@ public class ConnectToPlay  extends YHYManager{
             Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
             List<Purchase> listOfAllProducts = purchasesResult.getPurchasesList();
 
-            a:for (Purchase item : listOfAllProducts) {
-                for (String appSku : listApplicationSKU) {
+            if(listOfAllProducts != null) {
 
-                    if (item.getSku().equals(appSku)) {
+                a:for (Purchase item : listOfAllProducts) {
+                    for (String appSku : listApplicationSKU) {
 
-                        if(item.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                            BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true, item.getSku());
-                            checkIsAcknowledged(item);
+                        if (item.getSku().equals(appSku)) {
+
+                            if (item.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true, item.getSku());
+                                checkIsAcknowledged(item);
+                            }
                         }
                     }
                 }
-            }
 
-            HashMap<String,Purchase>  list = initHashMapPurchaseDetails(listOfAllProducts);
-            updateOwnedProductsOnDB(list);
+                //Below code just convert List<Purchase>  to HashMap<String,Purchase>
+                HashMap<String, Purchase> list = initHashMapPurchaseDetails(listOfAllProducts);
+                updateOwnedProductsOnDB(list);
 
-            isProductStatusGot = true;
-            if(mProductStatusGotListener != null){
-                mProductStatusGotListener.onProductStatusGot(list);
+                isProductStatusGot = true;
+                if (mProductStatusGotListener != null) {
+                    mProductStatusGotListener.onProductStatusGot(list);
+                }
             }
         }else{
             notConnectedToGooglePlay();

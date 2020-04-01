@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        Log.d("aa","aa");
 
 
 

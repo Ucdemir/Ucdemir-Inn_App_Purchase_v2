@@ -13,7 +13,7 @@ public interface InAppPurchaseListener {
 
     public  void returnAllProductsDetailsFromPlayStore(HashMap<String,SkuDetails> hashMapSkuDetails);
 
-    public void isPruductBought(int  status);
+
 
 
 }

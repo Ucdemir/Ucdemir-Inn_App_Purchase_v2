@@ -46,26 +46,6 @@ public class ProFragment extends AppCompatActivity {
                         ConnectToPlay.getInstance().hideHud();
                     }
 
-                    @Override
-                    public void isPruductBought(int  status) {
-
-                        switch (status){
-                            case Purchase.PurchaseState.PURCHASED:
-
-                                break;
-                            case Purchase.PurchaseState.PENDING:
-
-                                break;
-
-                            case Purchase.PurchaseState.UNSPECIFIED_STATE:
-
-                                break;
-
-                        }
-
-                    }
-
-
                 });
 
         binding.btnOfBor.setOnClickListener(v->{
