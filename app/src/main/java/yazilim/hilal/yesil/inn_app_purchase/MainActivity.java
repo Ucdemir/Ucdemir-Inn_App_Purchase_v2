@@ -58,15 +58,18 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.hashMapPurchaseDetails = hashMapPurchaseDetails;
 
 
-                     /*Purchase p = hashMapPurchaseDetails.get("bor");
-                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
-                       /*  p = hashMapPurchaseDetails.get("gas");
+
+                       /* p = hashMapPurchaseDetails.get("gas");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 
                         for (String sku : listOfApplicationSKU){
 
+
+
+                           /* Purchase p = hashMapPurchaseDetails.get(sku);
+                            ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
                            boolean status = ConnectToPlay.getInstance().whatIsProductStatus(sku);
                             switch (sku){

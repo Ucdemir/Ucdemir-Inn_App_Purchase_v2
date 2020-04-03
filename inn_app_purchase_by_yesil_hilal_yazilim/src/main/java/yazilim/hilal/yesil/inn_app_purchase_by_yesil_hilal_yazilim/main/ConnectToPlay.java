@@ -41,7 +41,7 @@ public class ConnectToPlay  extends YHYManager{
     private static  ConnectToPlay instance;
 
 
-    private boolean isProductStatusGot = false;
+
     private  List<Purchase> listUserBoughtPurchase = new ArrayList<>();
 
     private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
@@ -337,7 +337,7 @@ public class ConnectToPlay  extends YHYManager{
     //Delete Play Store data from device settings
     private void  getCachedQueryList(){
 
-        isProductStatusGot = false;
+
         List<PurchaseStatus> listOfBoughtProducts = new ArrayList<>();
 
         if(mBillingClient != null) {
@@ -364,7 +364,6 @@ public class ConnectToPlay  extends YHYManager{
                 HashMap<String, Purchase> list = initHashMapPurchaseDetails(listOfAllProducts);
                 updateOwnedProductsOnDB(list);
 
-                isProductStatusGot = true;
                 if (mProductStatusGotListener != null) {
                     mProductStatusGotListener.onProductStatusGot(list);
                 }
@@ -481,19 +480,9 @@ public class ConnectToPlay  extends YHYManager{
 
     public boolean whatIsProductStatus(String skuName){
 
+        return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
 
-        if(isProductStatusGot) {
-            return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
-        }else{
-
-            super.showToastMessage(activity,"You called this function before initialization Of GooglePlay, Use" +
-                    "setProductStatusGotListener method. If you dont, this method always return false");
-
-            return false;
-
-        }
     }
-
 
 
 }
