@@ -31,6 +31,15 @@ Acknowledged. Otherwise item will be refunded! This is Google rule!**
 
 **You can't use example project with emulator since it does not have play store**
 
+
+# Read Carefully : 
+-Whenever app installed, in first status of products  is bought!
+but it is immediatly get correct status with after start to work function which called on Mainactivity
+Why we do this?
+-User who purchased products will never see advertisement (First Open).
+-User who install application will not see advertisement in first open. It is better user experience 
+-After You call function on MainActivity It gets correct status.This function check on every open the application
+
 ## Implementation
 
 don't forget to add permission to manifest
@@ -177,6 +186,9 @@ you can use this method:
    ```java
 ConnectToPlay.getInstance().whatIsProductStatus(sku);
   ```
+  
+## Note : dont call   "whatIsProductStatus" function before startToWork. If  you do , app will crash!
+   
   
 sku is your product name which is added in MainActivity in to Arraylist.
 
