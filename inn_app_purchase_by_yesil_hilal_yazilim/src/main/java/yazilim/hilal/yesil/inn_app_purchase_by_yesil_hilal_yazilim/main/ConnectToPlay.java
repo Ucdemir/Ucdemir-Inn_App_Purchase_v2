@@ -112,7 +112,7 @@ public class ConnectToPlay  extends YHYManager{
            if(count == 0){
                EntityPurchaseStatus entity = new EntityPurchaseStatus();
                entity.setProductName(sku);
-               entity.setBought(false);
+               entity.setBought(true);
                dao.insert(entity);
            }
         }
@@ -484,5 +484,15 @@ public class ConnectToPlay  extends YHYManager{
 
     }
 
+
+
+    public  String statusOfProduct(String sku){
+
+        if(whatIsProductStatus(sku)){
+            return "Product Bought";
+        }else{
+            return "Is not bought";
+        }
+    }
 
 }

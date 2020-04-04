@@ -46,7 +46,7 @@ import java.util.List;
             int mPendingIntentId = 123456;
             PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 3500, mPendingIntent);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 6500, mPendingIntent);
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -54,7 +54,7 @@ import java.util.List;
                 public void run() {
                     System.exit(0);
                 }
-            }, 5000);
+            }, 3500);
 
         } catch (ClassNotFoundException e) {
             showToastMessage(context,"Your Application's Main Activity is not found");

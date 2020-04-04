@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
 
 
-
-
         ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
@@ -68,26 +66,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                           /* Purchase p = hashMapPurchaseDetails.get(sku);
+                            /*Purchase p = hashMapPurchaseDetails.get(sku);
                             ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
-                           boolean status = ConnectToPlay.getInstance().whatIsProductStatus(sku);
+
                             switch (sku){
 
                                 case  "bor":
-                                    binding.statusOfBor.setText(statusOfProduct(status));
+                                    binding.statusOfBor.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
                                     break;
                                 case  "gas":
-                                    binding.statusOfGas.setText(statusOfProduct(status));
+                                    binding.statusOfGas.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
                                     break;
                                 case  "noads":
-                                    binding.statusOfNoads.setText(statusOfProduct(status));
+                                    binding.statusOfNoads.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
                                     break;
                                 case  "pro":
-                                    binding.statusOfPro.setText(statusOfProduct(status));
+                                    binding.statusOfPro.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
                                     break;
                                 case  "sun":
-                                    binding.statusOfSun.setText(statusOfProduct(status));
+                                    binding.statusOfSun.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
                                     break;
                             }
                         }
@@ -111,7 +109,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Log.d("aa","aa");
+        for (String sku : listOfApplicationSKU) {
+            Log.d("buy","sku:"+ConnectToPlay.getInstance().statusOfProduct(sku));
+
+
+        }
+
 
 
 
@@ -124,13 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private String statusOfProduct(boolean status){
 
-        if(status){
-            return "Product Bought";
-        }else{
-            return "Is not bought";
-        }
-    }
 
 }
