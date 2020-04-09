@@ -40,7 +40,7 @@ public class ConnectToPlay  extends YHYManager{
     private   BillingClient mBillingClient;
     private static  ConnectToPlay instance;
 
-
+    private boolean isFirstOpen = false;
 
     private  List<Purchase> listUserBoughtPurchase = new ArrayList<>();
 
@@ -107,9 +107,11 @@ public class ConnectToPlay  extends YHYManager{
         YHYManager.listApplicationSKU = listApplicationSKU;
         DaoPurchaseStatus dao = BillingDB.getDatabase(activity).purchaseStatusDAO();
 
+        isFirstOpen = false;
         for(String sku : listApplicationSKU){
            int count = dao.getCountOfSKU(sku);
            if(count == 0){
+               isFirstOpen = true;
                EntityPurchaseStatus entity = new EntityPurchaseStatus();
                entity.setProductName(sku);
                entity.setBought(true);
@@ -480,8 +482,14 @@ public class ConnectToPlay  extends YHYManager{
 
     public boolean whatIsProductStatus(String skuName){
 
-        return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
+        if(isFirstOpen){
 
+            return true;
+
+        }else {
+
+            return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
+        }
     }
 
 

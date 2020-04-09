@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="yazilim.hilal.yesil.inn_app_purchase">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING"/>
     <application
-        android:allowBackup="true"
+
         android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:fullBackupContent="false"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         >
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,6 +26,7 @@
         <activity android:name=".ProFragment">
 
         </activity>
-    </application>
+    </application
+      >
 
 </manifest>

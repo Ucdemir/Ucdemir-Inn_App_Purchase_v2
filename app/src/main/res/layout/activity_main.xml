@@ -35,6 +35,21 @@
             android:text="Buy Products"
             android:id="@+id/btnPro"
             ></Button>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:text="Attention: At fresh start, Library return true for
+product status.. Becasue of better User experience. Restart the app after fresh start for correct status"
+            android:layout_marginRight="25dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            >
+        </TextView>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +61,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center">
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
