@@ -29,14 +29,21 @@ and no multidex needed
  **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
 Acknowledged. Otherwise item will be refunded! This is Google rule!**
 
+ **Note-2: At fresh start, all products return true for better user experience, after second application call it return products real status!
+ 
+  **Note-3: add this below commands inside application tag  in manifest
+  
+  ```java
+        android:fullBackupContent="false"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
+```
+
 **You can't use example project with emulator since it does not have play store**
 
 
 # Read Carefully : 
--Whenever app installed, in first status of products  is bought!
-
-but it is immediatly get correct status with after start to work function which called on Mainactivity
-Why we do this?
+-Whenever app installed, in first status of products  is bought!  Second call return real status!
 
 -User who purchased products will never see advertisement (First Open).
 
@@ -91,7 +98,7 @@ Answer: This dependencies can be use on every module your app have.. So less siz
   
  **in main module add this two lines:**
  ```java
-  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.4'
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.5'
   sharedGroup dependencies
 ```
 
