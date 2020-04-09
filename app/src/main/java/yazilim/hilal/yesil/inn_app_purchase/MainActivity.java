@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.hashMapPurchaseDetails = hashMapPurchaseDetails;
 
 
+                    ConnectToPlay.printProductStatus("onListener");
+
 
 
                        /* p = hashMapPurchaseDetails.get("gas");
@@ -109,11 +111,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        for (String sku : listOfApplicationSKU) {
-            Log.d("buy","sku:"+ConnectToPlay.getInstance().statusOfProduct(sku));
 
 
-        }
+        ConnectToPlay.printProductStatus(null);
 
 
 

@@ -8,8 +8,8 @@ android {
         applicationId "yazilim.hilal.yesil.inn_app_purchase"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 9
-        versionName "1.2.3.3"
+        versionCode 10
+        versionName "1.2.3.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

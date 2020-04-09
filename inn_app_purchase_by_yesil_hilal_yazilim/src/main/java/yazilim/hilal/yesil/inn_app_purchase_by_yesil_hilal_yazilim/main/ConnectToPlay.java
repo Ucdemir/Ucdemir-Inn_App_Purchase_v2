@@ -3,6 +3,7 @@ package yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -502,5 +503,26 @@ public class ConnectToPlay  extends YHYManager{
             return "Is not bought";
         }
     }
+
+
+    public static void printProductStatus(String wannaAddPrefix){
+
+        for (String sku :YHYManager.listApplicationSKU ){
+
+            if(wannaAddPrefix == null) {
+
+                Log.d("status", getInstance().statusOfProduct(sku));
+
+
+            }else{
+
+                Log.d("status", wannaAddPrefix+": "+getInstance().statusOfProduct(sku));
+
+            }
+        }
+
+    }
+
+
 
 }
