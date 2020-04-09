@@ -29,6 +29,14 @@ and no multidex needed
  **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
 Acknowledged. Otherwise item will be refunded! This is Google rule!**
 
+ **Note-2: At fresh start, all products return true for better user experience, after second application call it return products real status!
+ 
+  **Note-3: add this tag inside application tag  in manifest
+  ```java
+        android:fullBackupContent="false"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
+```
 **You can't use example project with emulator since it does not have play store**
 
 
