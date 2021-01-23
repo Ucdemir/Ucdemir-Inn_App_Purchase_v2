@@ -278,7 +278,7 @@ public class ConnectToPlay  extends YHYManager{
                 AcknowledgePurchaseParams acknowledgePurchaseParams =
                         AcknowledgePurchaseParams.newBuilder()
                                 .setPurchaseToken(purchase.getPurchaseToken())
-                                .setDeveloperPayload(purchase.getDeveloperPayload())
+                                //.setDeveloperPayload(purchase.getDeveloperPayload())
                                 .build();
                 if (mBillingClient != null) {
 
@@ -380,7 +380,7 @@ public class ConnectToPlay  extends YHYManager{
         ConsumeParams consumeParams =
                 ConsumeParams.newBuilder()
                         .setPurchaseToken(purchaseToken)
-                        .setDeveloperPayload(payload)
+                        //.setDeveloperPayload(payload)
                         .build();
 
         if (mBillingClient != null) {

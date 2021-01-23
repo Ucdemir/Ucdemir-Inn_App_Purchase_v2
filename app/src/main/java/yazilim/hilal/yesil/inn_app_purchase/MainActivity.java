@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                       /* p = hashMapPurchaseDetails.get("gas");
+                      /*Purchase p = hashMapPurchaseDetails.get("bor");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 
