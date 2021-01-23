@@ -1,4 +1,4 @@
-# Android Google Play In APP Billing Library v:2.1.0 or newer
+# Android Google Play In APP Billing Library v:3.0.2 
 **Yeşil Hilal Yazilim : As your service, Develop Future**
 
 [![](https://jitpack.io/v/Ucdemir/Ucdemir-Inn_App_Purchase_v2.svg)](https://jitpack.io/#Ucdemir/Ucdemir-Inn_App_Purchase_v2)
@@ -81,10 +81,10 @@ Again project module add this dependencies
 ```java
 ext.sharedGroup = {dependencyHandler->
     delegate = dependencyHandler
-    implementation 'com.android.billingclient:billing:2.1.0'
-    implementation "androidx.room:room-runtime:2.2.5"
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
-    implementation 'com.kaopiz:kprogresshud:1.1.0'
+     implementation 'com.android.billingclient:billing:3.0.2'
+    implementation "androidx.room:room-runtime:2.2.6"
+    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
 }
 ```
 
@@ -98,7 +98,7 @@ Answer: This dependencies can be use on every module your app have.. So less siz
   
  **in main module add this two lines:**
  ```java
-  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.6'
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.7'
   sharedGroup dependencies
 ```
 
