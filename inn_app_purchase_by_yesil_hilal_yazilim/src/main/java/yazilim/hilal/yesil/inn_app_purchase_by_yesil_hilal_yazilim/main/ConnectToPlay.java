@@ -142,6 +142,7 @@ public class ConnectToPlay  extends YHYManager{
 
                     ).build();
 
+
             mBillingClient.startConnection(new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
@@ -524,5 +525,11 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
+
+    public void endConnection(){
+        if(mBillingClient != null){
+            mBillingClient.endConnection();
+        }
+    }
 
 }
