@@ -74,8 +74,10 @@ public class ConnectToPlay  extends YHYManager{
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setDimAmount(0.5f)
                 .setAnimationSpeed(2);
-         if(msg!= null) {
+         if(msg== null) {
              hud.setLabel("");
+         }else{
+             hud.setLabel(msg);
          }
          hud.show();
 
