@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -25,8 +26,12 @@ import java.util.List;
                 text, Toast.LENGTH_LONG);
 
         toast.setGravity(Gravity.BOTTOM, 0, 0);
-        TextView v = toast.getView().findViewById(android.R.id.message);
-        if( v != null) v.setGravity(Gravity.CENTER);
+
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            TextView v = toast.getView().findViewById(android.R.id.message);
+            if( v != null) v.setGravity(Gravity.CENTER);
+        }
 
         toast.show();
 
