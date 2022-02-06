@@ -31,6 +31,7 @@ import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.Afte
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterConsumeListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.ProductStatusGotListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.SuccessfullyPurchasedListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.PurchaseStatus;
 
 
@@ -52,13 +53,16 @@ public class ConnectToPlay  extends YHYManager{
 
     private Activity activity;
 
-    private InAppPurchaseListener mInAppPurchaseListener;
-    private ProductStatusGotListener mProductStatusGotListener;
+    private InAppPurchaseListener mInAppPurchaseListener;//it get price
+    private ProductStatusGotListener mProductStatusGotListener;// it get product status
+    private SuccessfullyPurchasedListener mSuccessfullyPurchasedListener;
+
     private AfterConsumeListener mAfterConsumeListener;
     private AfterAcknowledgePurchaseResponseListener mAfterAcknowledgePurchaseResponseListener;
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
 
 
+    private boolean shouldRestartApp = true;
 
     public enum CallType{
         GetPriceProducts,
@@ -189,7 +193,9 @@ public class ConnectToPlay  extends YHYManager{
                     }
 
 
-                    ConnectToPlay.super.restartApp(activity);
+                    if(shouldRestartApp) {
+                        ConnectToPlay.super.restartApp(activity);
+                    }
                 }
             };
 
@@ -328,6 +334,10 @@ public class ConnectToPlay  extends YHYManager{
                     if (!boughtPurchase.isAcknowledged()) {
                         checkIsAcknowledged(boughtPurchase);
                     }
+                    if(mSuccessfullyPurchasedListener != null){
+                        mSuccessfullyPurchasedListener.successfullyPurchased(boughtPurchase.getSku());
+                    }
+
                     break a;
                 }
 
@@ -476,6 +486,15 @@ public class ConnectToPlay  extends YHYManager{
     public ConnectToPlay setProductStatusGotListener(ProductStatusGotListener listener){
 
         mProductStatusGotListener = listener;
+
+        return this;
+    }
+
+
+    public ConnectToPlay setSuccessfullyPurchasedListener(SuccessfullyPurchasedListener listener,Boolean shouldRestartApp){
+
+        mSuccessfullyPurchasedListener = listener;
+        this.shouldRestartApp = shouldRestartApp;
 
         return this;
     }

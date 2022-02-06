@@ -17,6 +17,7 @@ import java.util.Map;
 import yazilim.hilal.yesil.inn_app_purchase.databinding.ActivityMainBinding;
 import yazilim.hilal.yesil.inn_app_purchase.databinding.ActivityProBinding;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.InAppPurchaseListener;
+import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.SuccessfullyPurchasedListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.BillingDB;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.ConnectToPlay;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main.EntityPurchaseStatus;
@@ -46,7 +47,13 @@ public class ProFragment extends AppCompatActivity {
                         ConnectToPlay.getInstance().hideHud();
                     }
 
-                });
+                }).setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
+            @Override
+            public void successfullyPurchased(String sku) {
+
+
+            }
+        },false);
 
         binding.btnOfBor.setOnClickListener(v->{
 
