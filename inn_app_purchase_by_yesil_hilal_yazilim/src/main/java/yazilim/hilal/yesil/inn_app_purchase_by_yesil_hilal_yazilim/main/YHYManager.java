@@ -22,18 +22,21 @@ import java.util.List;
 
     protected   void showToastMessage(Context context, String text){
 
-        Toast toast = Toast.makeText(context,
-                text, Toast.LENGTH_LONG);
+        if(ConnectToPlay.getInstance().shouldShowToast) {
 
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
+            Toast toast = Toast.makeText(context,
+                    text, Toast.LENGTH_LONG);
+
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
 
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            TextView v = toast.getView().findViewById(android.R.id.message);
-            if( v != null) v.setGravity(Gravity.CENTER);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                TextView v = toast.getView().findViewById(android.R.id.message);
+                if (v != null) v.setGravity(Gravity.CENTER);
+            }
+
+            toast.show();
         }
-
-        toast.show();
 
     }
 

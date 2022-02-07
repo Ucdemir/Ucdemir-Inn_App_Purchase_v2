@@ -61,8 +61,9 @@ public class ConnectToPlay  extends YHYManager{
     private AfterAcknowledgePurchaseResponseListener mAfterAcknowledgePurchaseResponseListener;
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
 
-
     private boolean shouldRestartApp = true;
+
+    public boolean shouldShowToast = true;
 
     public enum CallType{
         GetPriceProducts,
@@ -188,6 +189,8 @@ public class ConnectToPlay  extends YHYManager{
                 public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
                     ConnectToPlay.super.showToastMessage(activity,activity.getString(R.string.purchase_acknowledged));
+
+
                     if(mAfterAcknowledgePurchaseResponseListener != null){
                         mAfterAcknowledgePurchaseResponseListener.onAcknowledgePurchaseResponse(billingResult);
                     }
