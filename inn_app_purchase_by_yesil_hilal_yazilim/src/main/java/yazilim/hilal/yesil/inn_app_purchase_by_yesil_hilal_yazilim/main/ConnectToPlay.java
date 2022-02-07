@@ -62,8 +62,8 @@ public class ConnectToPlay  extends YHYManager{
     private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
 
     private boolean shouldRestartApp = true;
-
-    public boolean shouldShowToast = true;
+    protected boolean shouldShowToast = true;
+    private boolean shouldFirstProductsReturnTrue = true;
 
     public enum CallType{
         GetPriceProducts,
@@ -494,10 +494,10 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
-    public ConnectToPlay setSuccessfullyPurchasedListener(SuccessfullyPurchasedListener listener,Boolean shouldRestartApp){
+    public ConnectToPlay setSuccessfullyPurchasedListener(SuccessfullyPurchasedListener listener){
 
         mSuccessfullyPurchasedListener = listener;
-        this.shouldRestartApp = shouldRestartApp;
+
 
         return this;
     }
@@ -519,7 +519,12 @@ public class ConnectToPlay  extends YHYManager{
 
         if(isFirstOpen){
 
-            return true;
+            if(shouldFirstProductsReturnTrue){
+                return true;
+
+            }else{
+                return false;
+            }
 
         }else {
 
@@ -564,5 +569,19 @@ public class ConnectToPlay  extends YHYManager{
             mBillingClient.endConnection();
         }
     }
+    public ConnectToPlay shouldShowToast(boolean shouldShowToast){
+        this.shouldShowToast = shouldShowToast;
+        return  instance;
+    }
+    public ConnectToPlay shouldRestartApp(boolean shouldRestartApp){
+        this.shouldRestartApp = shouldRestartApp;
+        return  instance;
+    }
+    public ConnectToPlay shouldFirstProductsReturnTrue(boolean shouldFirstProductsReturnTrue){
+        this.shouldFirstProductsReturnTrue = shouldFirstProductsReturnTrue;
+        return  instance;
+    }
+
+
 
 }
