@@ -53,7 +53,7 @@ public class ProFragment extends AppCompatActivity {
 
 
             }
-        },false);
+        });
 
         binding.btnOfBor.setOnClickListener(v->{
 
