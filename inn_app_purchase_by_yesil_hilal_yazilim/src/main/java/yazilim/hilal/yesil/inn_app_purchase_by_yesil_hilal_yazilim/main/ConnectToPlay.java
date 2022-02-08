@@ -517,14 +517,9 @@ public class ConnectToPlay  extends YHYManager{
 
     public boolean whatIsProductStatus(String skuName){
 
-        if(isFirstOpen){
 
-            if(shouldFirstProductsReturnTrue){
-                return true;
-
-            }else{
-                return false;
-            }
+        if(shouldFirstProductsReturnTrue) {
+            return true;
 
         }else {
 
