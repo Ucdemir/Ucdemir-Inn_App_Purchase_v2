@@ -395,6 +395,12 @@ public class ConnectToPlay  extends YHYManager{
                 HashMap<String, Purchase> list = initHashMapPurchaseDetails(listOfAllProducts);
                 updateOwnedProductsOnDB(list);
 
+                //Below isFirstOpen requred for fresh start..
+                //it false so, product will get correct ones...
+                isFirstOpen = false;
+
+
+
                 if (mProductStatusGotListener != null) {
                     mProductStatusGotListener.onProductStatusGot(list);
                 }
@@ -521,10 +527,15 @@ public class ConnectToPlay  extends YHYManager{
     public boolean whatIsProductStatus(String skuName){
 
 
-        if(shouldFirstProductsReturnTrue) {
-            return true;
+        if(isFirstOpen){
+            if(shouldFirstProductsReturnTrue) {
+                return true;
 
-        }else {
+            }else{
+              return false;
+            }
+        }
+       else {
 
             return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
         }

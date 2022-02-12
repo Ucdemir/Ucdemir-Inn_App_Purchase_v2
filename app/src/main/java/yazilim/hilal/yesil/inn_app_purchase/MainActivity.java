@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                       /*Purchase p = hashMapPurchaseDetails.get("bor");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+
+
+
+                         p = hashMapPurchaseDetails.get("sun");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 

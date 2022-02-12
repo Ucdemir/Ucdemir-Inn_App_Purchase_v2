@@ -26,4 +26,6 @@ public interface DaoPurchaseStatus {
 
     @Query("Select COUNT(*) from "+ YHYManager.TABLE_PURCHASE_STATUS + " where productName =:ProductName")
      int getCountOfSKU(String ProductName);
+
+
 }
