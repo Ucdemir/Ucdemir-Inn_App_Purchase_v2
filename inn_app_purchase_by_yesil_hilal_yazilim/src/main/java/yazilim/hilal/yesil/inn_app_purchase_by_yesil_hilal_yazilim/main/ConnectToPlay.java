@@ -172,13 +172,16 @@ public class ConnectToPlay  extends YHYManager{
                 public void onBillingServiceDisconnected() {
 
 
-                    try {
+
+                    //This area has been commented for
+                    //illegal state exception to see it casued by this
+                    /*try {
 
                         startToWork(type);
                     }catch (IllegalStateException e){
 
 
-                    }
+                    }*/
 
 
                 }
