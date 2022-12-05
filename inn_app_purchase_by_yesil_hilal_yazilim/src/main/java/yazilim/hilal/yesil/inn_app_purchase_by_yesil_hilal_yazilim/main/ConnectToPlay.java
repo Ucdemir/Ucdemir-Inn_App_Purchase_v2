@@ -3,7 +3,9 @@ package yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -14,11 +16,17 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.common.collect.ImmutableList;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.ArrayList;
@@ -44,14 +52,18 @@ public class ConnectToPlay  extends YHYManager{
 
     private boolean isFirstOpen = false;
 
-    private  List<Purchase> listUserBoughtPurchase = new ArrayList<>();
+    //Below one old one
+    //private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
+    private HashMap<String,ProductDetails> hashMapProductDetails = new HashMap<>();
+    private List<ProductDetails> productDetailsList = new ArrayList<>();
 
-    private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
+
     private HashMap<String,Purchase> hashMapPurchaseDetails = new HashMap<>();
+
 
     private KProgressHUD hud;
 
-    private Activity activity;
+
 
     private InAppPurchaseListener mInAppPurchaseListener;//it get price
     private ProductStatusGotListener mProductStatusGotListener;// it get product status
@@ -63,14 +75,23 @@ public class ConnectToPlay  extends YHYManager{
 
     private boolean shouldRestartApp = true;
     protected boolean shouldShowToast = true;
-    private boolean shouldFirstProductsReturnTrue = true;
+    private boolean shouldFirstProductsReturnTrue = false;
+
+    private String purchaseToken = "";
+
+    public ConnectToPlay() {
+        super();
+    }
+
+    public ConnectToPlay(Activity activity) {
+        super(activity);
+    }
+
+
 
     public enum CallType{
         GetPriceProducts,
         CheckProductStatus,
-
-    }
-    private ConnectToPlay(){
 
     }
 
@@ -107,6 +128,7 @@ public class ConnectToPlay  extends YHYManager{
 
     public  ConnectToPlay initForActivity(Activity a){
         this.activity = a;
+        sp = PreferenceManager.getDefaultSharedPreferences(activity).edit();
 
         return instance;
     }
@@ -116,9 +138,16 @@ public class ConnectToPlay  extends YHYManager{
         DaoPurchaseStatus dao = BillingDB.getDatabase(activity).purchaseStatusDAO();
 
         isFirstOpen = false;
+
+        String isFreshStart = getStringFromSP(IS_FRESH_START,null);
+
+
         for(String sku : listApplicationSKU){
-           int count = dao.getCountOfSKU(sku);
-           if(count == 0){
+           //int count = dao.getCountOfSKU(sku);
+           //if(count == 0){
+
+            if(isFreshStart == null){
+                makeStringOnSP(IS_FRESH_START,"NO");
                isFirstOpen = true;
                EntityPurchaseStatus entity = new EntityPurchaseStatus();
                entity.setProductName(sku);
@@ -143,7 +172,20 @@ public class ConnectToPlay  extends YHYManager{
                                     @Override
                                     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> list) {
 
-                                       instance.purchaseStatus( billingResult,  list);
+
+
+                                        if(purchaseToken.equals("")){
+                                            Purchase p = list.get(0);
+                                            instance.purchaseStatus( billingResult,  list);
+                                            purchaseToken = p.getPurchaseToken();
+                                        }else{
+                                            purchaseToken = "";
+                                        }
+
+
+
+
+                                        //mBillingClient.endConnection();
                                     }
                                 }
 
@@ -162,7 +204,7 @@ public class ConnectToPlay  extends YHYManager{
                             break;
 
                         case CheckProductStatus:
-                            getCachedQueryList();
+                            getStatusOfProducts();
                             break;
                     }
 
@@ -199,9 +241,9 @@ public class ConnectToPlay  extends YHYManager{
                     }
 
 
-                    if(shouldRestartApp) {
+                    /*if(shouldRestartApp) {
                         ConnectToPlay.super.restartApp(activity);
-                    }
+                    }*/
                 }
             };
 
@@ -246,9 +288,12 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
-    public  void  startBuyOut(Activity activity,SkuDetails skuDetails){
+    public  void  startBuyOut(Activity activity,ProductDetails productDetails){
 
-        if(mBillingClient != null) {
+
+
+        //below old code for buyout
+        /*if(mBillingClient != null) {
             BillingResult responseCode = mBillingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_ITEMS_ON_VR);
             if (responseCode.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                 BillingFlowParams flowParams = BillingFlowParams.newBuilder()
@@ -262,14 +307,39 @@ public class ConnectToPlay  extends YHYManager{
 
         }else{
             notConnectedToGooglePlay();
+        }*/
+        //above old code for buyout
+
+        if(mBillingClient != null) {
+
+            ImmutableList productDetailsParamsList =
+                    ImmutableList.of(
+                            BillingFlowParams.ProductDetailsParams.newBuilder()
+                                    // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
+                                    .setProductDetails(productDetails)
+                                    // to get an offer token, call ProductDetails.getSubscriptionOfferDetails()
+                                    // for a list of offers that are available to the user
+                                    //.setOfferToken(selectedOfferToken)
+                                    .build()
+                    );
+
+            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                    .setProductDetailsParamsList(productDetailsParamsList)
+                    .build();
+
+
+            BillingResult billingResult = mBillingClient.launchBillingFlow(activity, billingFlowParams);
+
+
         }
+
     }
 
     private void getPriceOfAllProduct(){
 
 
-
-        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+        //Below old code that get price
+        /*SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
         params.setSkusList(listApplicationSKU).setType(BillingClient.SkuType.INAPP);
         mBillingClient.querySkuDetailsAsync(params.build(),
                 new SkuDetailsResponseListener() {
@@ -285,7 +355,51 @@ public class ConnectToPlay  extends YHYManager{
                         }
 
                     }
-                });
+                });*/
+        //Above old code that get price
+
+
+        if(mBillingClient != null){
+
+            QueryProductDetailsParams queryProductDetailsParams =
+                    QueryProductDetailsParams.newBuilder()
+                            .setProductList(
+                                    setProductListForGetDetails())
+                            .build();
+
+            mBillingClient.queryProductDetailsAsync(
+                    queryProductDetailsParams,
+                    new ProductDetailsResponseListener() {
+                        public void onProductDetailsResponse(BillingResult billingResult,
+                                                             List<ProductDetails> productDetailsList) {
+
+
+                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && productDetailsList != null) {
+
+                                ConnectToPlay.this.productDetailsList = productDetailsList;
+
+
+                                mInAppPurchaseListener.
+                                        returnAllProductsDetailsFromPlayStore(initHashMapProductDetails(productDetailsList));
+
+                                /*for(ProductDetails productDetails : productDetailsList){
+                                    productDetails.getOneTimePurchaseOfferDetails().getFormattedPrice();
+
+
+                                }*/
+
+
+                            }
+
+
+
+
+                        }
+                    }
+            );
+
+        }
+
     }
 
 
@@ -327,21 +441,31 @@ public class ConnectToPlay  extends YHYManager{
 
              a: for(String  appSkuName : listApplicationSKU ) {
 
-                if (boughtPurchase.getSku().equals(appSkuName)) {
+            String sku = boughtPurchase.getProducts().get(0);
+
+                if (sku.equals(appSkuName)) {
 
 
 
                     BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true
-                            ,boughtPurchase.getSku());
+                            ,sku);
+
+
 
                     super.showToastMessage(activity, activity.getString(R.string.succuss_buy));
+
+
+
+                    if(shouldRestartApp) {
+                        ConnectToPlay.super.restartApp(activity);
+                    }
 
 
                     if (!boughtPurchase.isAcknowledged()) {
                         checkIsAcknowledged(boughtPurchase);
                     }
                     if(mSuccessfullyPurchasedListener != null){
-                        mSuccessfullyPurchasedListener.successfullyPurchased(boughtPurchase.getSku());
+                        mSuccessfullyPurchasedListener.successfullyPurchased(sku);
                     }
 
                     break a;
@@ -366,12 +490,11 @@ public class ConnectToPlay  extends YHYManager{
     //As Cached function, some items that rejected by bank it take time to update purchasesResult.getPurchasesList();
     //After bank reject purchase, Item is not got by purchasesResult.getPurchasesList(); if you want immediate update,
     //Delete Play Store data from device settings
-    private void  getCachedQueryList(){
+    private void  getStatusOfProducts(){
 
-
-        List<PurchaseStatus> listOfBoughtProducts = new ArrayList<>();
-
-        if(mBillingClient != null) {
+        //Below old codes
+        /* List<PurchaseStatus> listOfBoughtProducts = new ArrayList<>();
+       if(mBillingClient != null) {
 
             Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
             List<Purchase> listOfAllProducts = purchasesResult.getPurchasesList();
@@ -407,7 +530,66 @@ public class ConnectToPlay  extends YHYManager{
             }
         }else{
             notConnectedToGooglePlay();
+        }*/
+
+        //------ Above old Codes
+
+
+        if(mBillingClient != null) {
+            mBillingClient.queryPurchasesAsync(
+                    QueryPurchasesParams.newBuilder()
+                            .setProductType(BillingClient.ProductType.INAPP)
+                            .build(),
+                    new PurchasesResponseListener() {
+                        public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> listOfAllProducts) {
+
+
+                            if(mBillingClient != null) {
+
+                                if(listOfAllProducts != null) {
+
+                                    a:for (Purchase item : listOfAllProducts) {
+                                        for (String appSku : listApplicationSKU) {
+                                            String productId = item.getProducts().get(0);
+
+
+                                            if (productId.equals(appSku)) {
+
+                                                if (item.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                                    BillingDB.getDatabase(activity).purchaseStatusDAO().updatePurchaseStatus(true, productId);
+                                                    checkIsAcknowledged(item);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    //Below code just convert List<Purchase>  to HashMap<String,Purchase>
+                                    HashMap<String, Purchase> list = initHashMapPurchaseDetails(listOfAllProducts);
+                                    updateOwnedProductsOnDB(list);
+
+                                    //Below isFirstOpen requred for fresh start..
+                                    //it false so, product will get correct ones...
+                                    //isFirstOpen = false;
+
+
+
+                                    if (mProductStatusGotListener != null) {
+                                        mProductStatusGotListener.onProductStatusGot(list);
+                                    }
+                                }
+                            }else{
+                                notConnectedToGooglePlay();
+                            }
+
+
+                        }
+                    }
+            );
         }
+
+
+
+        //Above code gets product data such as product id & name & description
     }
 
     public void consumeProduct(String purchaseToken, String payload){
@@ -460,7 +642,8 @@ public class ConnectToPlay  extends YHYManager{
         hashMapPurchaseDetails = new HashMap<>();
         for(Purchase purchase : listOfSkuProductDetails){
             for(String productName : listApplicationSKU){
-                if(purchase.getSku().equals(productName)){
+                String sku = purchase.getProducts().get(0);
+                if(sku.equals(productName)){
                     hashMapPurchaseDetails.put(productName,purchase);
                 }
             }
@@ -469,6 +652,9 @@ public class ConnectToPlay  extends YHYManager{
         return hashMapPurchaseDetails;
     }
 
+
+    //Below one old one
+    /*@Deprecated
     private HashMap<String,SkuDetails> initHashMapSkuDetails(List<SkuDetails> listOfSkuProductDetails){
         hashMapSkuDetails = new HashMap<>();
 
@@ -485,6 +671,26 @@ public class ConnectToPlay  extends YHYManager{
         }
 
         return hashMapSkuDetails;
+    }*/
+    //Above one old one
+
+
+    private HashMap<String,ProductDetails> initHashMapProductDetails(List<ProductDetails> listOfProductDetails){
+        hashMapProductDetails = new HashMap<>();
+
+
+        for(ProductDetails productDetails : listOfProductDetails){
+
+            for(String productName : listApplicationSKU){
+                if(productDetails.getProductId().equals(productName)){
+                    hashMapProductDetails.put(productName,productDetails);
+                }
+
+            }
+
+        }
+
+        return hashMapProductDetails;
     }
 
 
@@ -532,7 +738,7 @@ public class ConnectToPlay  extends YHYManager{
                 return true;
 
             }else{
-              return false;
+              return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
             }
         }
        else {
@@ -592,5 +798,17 @@ public class ConnectToPlay  extends YHYManager{
     }
 
 
+    private ArrayList<QueryProductDetailsParams.Product>  setProductListForGetDetails(){
+        ArrayList<QueryProductDetailsParams.Product> productList = new ArrayList<>();
+
+        for(String productId : YHYManager.listApplicationSKU ){
+            productList.add(  QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId(productId)
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build());
+        }
+
+        return productList;
+    }
 
 }

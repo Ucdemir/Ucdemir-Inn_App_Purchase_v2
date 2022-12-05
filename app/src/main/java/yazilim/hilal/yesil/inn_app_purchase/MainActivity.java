@@ -62,9 +62,17 @@ public class MainActivity extends AppCompatActivity {
                       /*Purchase p = hashMapPurchaseDetails.get("bor");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
+                         p = hashMapPurchaseDetails.get("gas");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
 
-                         p = hashMapPurchaseDetails.get("sun");
+                         p = hashMapPurchaseDetails.get("noads");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+
+                        p = hashMapPurchaseDetails.get("pro");
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+
+                        p = hashMapPurchaseDetails.get("sun");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 
@@ -76,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
                             ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
 
 
+                            //String status  = ConnectToPlay.getInstance().statusOfProduct(sku).toString();
                             switch (sku){
+
+
 
                                 case  "bor":
                                     binding.statusOfBor.setText(ConnectToPlay.getInstance().statusOfProduct(sku));
@@ -112,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
             public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
             }
-        });
+        }).shouldFirstProductsReturnTrue(true);
 
 
 
 
-        ConnectToPlay.printProductStatus(null);
+
 
 
 

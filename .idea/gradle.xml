@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/inn_app_purchase_by_yesil_hilal_yazilim" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

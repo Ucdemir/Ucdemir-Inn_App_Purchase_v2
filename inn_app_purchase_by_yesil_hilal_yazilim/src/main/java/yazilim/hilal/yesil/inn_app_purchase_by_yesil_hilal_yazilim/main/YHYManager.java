@@ -1,11 +1,14 @@
 package yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.main;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,8 +22,22 @@ import java.util.List;
      protected static final String TABLE_PURCHASE_STATUS = "purchase_status";
      protected static List<String> listApplicationSKU  = new ArrayList<>();
 
+     protected SharedPreferences.Editor sp;
+     public static final String IS_FRESH_START = "IS_FRESH_START";
 
-    protected   void showToastMessage(Context context, String text){
+     protected Activity activity;
+
+     public YHYManager() {
+
+     }
+
+
+     public YHYManager(Activity activity) {
+         this.activity = activity;
+
+     }
+
+     protected   void showToastMessage(Context context, String text){
 
         if(ConnectToPlay.getInstance().shouldShowToast) {
 
@@ -70,4 +87,13 @@ import java.util.List;
             e.printStackTrace();
         }
     }
+
+     public void makeStringOnSP(String key, String value){
+
+         sp.putString(key,value).commit();
+     }
+
+     public String getStringFromSP(String key, String defaultValue){
+         return PreferenceManager.getDefaultSharedPreferences(activity).getString(key,defaultValue);
+     }
 }

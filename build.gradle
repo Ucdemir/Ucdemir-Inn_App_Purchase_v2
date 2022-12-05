@@ -26,10 +26,15 @@ allprojects {
 
 ext.sharedGroup = {dependencyHandler->
     delegate = dependencyHandler
-    implementation 'com.android.billingclient:billing:3.0.3'
-    implementation "androidx.room:room-runtime:2.2.6"
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+    implementation 'com.android.billingclient:billing:5.1.0'
+    implementation "androidx.room:room-runtime:2.4.3"
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
     implementation 'com.kaopiz:kprogresshud:1.2.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+
+
+
+
 }
 
 task clean(type: Delete) {

@@ -1,5 +1,6 @@
 package yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener;
 
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 
@@ -11,7 +12,7 @@ import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.pojo.Purchase
 public interface InAppPurchaseListener {
 
 
-    public  void returnAllProductsDetailsFromPlayStore(HashMap<String,SkuDetails> hashMapSkuDetails);
+    public  void returnAllProductsDetailsFromPlayStore(HashMap<String, ProductDetails> hashMapSkuDetails);
 
 
 

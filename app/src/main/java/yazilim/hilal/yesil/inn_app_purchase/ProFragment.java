@@ -3,10 +3,12 @@ package yazilim.hilal.yesil.inn_app_purchase;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 
@@ -27,7 +29,10 @@ public class ProFragment extends AppCompatActivity {
 
 
     public ActivityProBinding binding;
-    private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
+    //private HashMap<String,SkuDetails> hashMapSkuDetails = new HashMap<>();
+    private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class ProFragment extends AppCompatActivity {
         ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
                 .setInAppPurchaseListener(new InAppPurchaseListener() {
                     @Override
-                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,SkuDetails> hashMapSkuDetails) {
+                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,ProductDetails> hashMapSkuDetails) {
                         ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
                         setPrice();
 
@@ -109,37 +114,55 @@ public class ProFragment extends AppCompatActivity {
     private void setPrice(){
 
 
-        for (Map.Entry<String, SkuDetails> e  : hashMapSkuDetails.entrySet()){
+        for (Map.Entry<String, ProductDetails> e  : hashMapSkuDetails.entrySet()){
+
+            Log.d("YHY", "price : " + e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
             switch (e.getKey()){
 
                 case "bor":
 
-                    binding.btnOfBor.setText(binding.btnOfBor.getText()+" ("+ e.getValue().getPrice()+")");
+                    //binding.btnOfBor.setText(binding.btnOfBor.getText()+" ("+ e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+
+                    //String aa = "ajaja" +  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice();
+
+                    binding.btnOfBor.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
                     break;
                 case "gas":
 
-                    binding.btnOfGas.setText(binding.btnOfGas.getText()+" ("+  e.getValue().getPrice()+")");
+                    binding.btnOfGas.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    //binding.btnOfGas.setText(binding.btnOfGas.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+
                     break;
 
                 case "noads":
+                    binding.btnOfNoads.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    binding.btnOfNoads.setText(binding.btnOfNoads.getText()+" ("+  e.getValue().getPrice()+")");
+                    //binding.btnOfNoads.setText(binding.btnOfNoads.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
                 case "pro":
+                    binding.btnOfPro.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    binding.btnOfPro.setText(binding.btnOfPro.getText()+" ("+  e.getValue().getPrice()+")");
+                    //binding.btnOfPro.setText(binding.btnOfPro.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
                 case "sun":
+                    binding.btnOfSun.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    binding.btnOfSun.setText(binding.btnOfSun.getText()+" ("+  e.getValue().getPrice()+")");
+                    //binding.btnOfSun.setText(binding.btnOfSun.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
             }
 
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ConnectToPlay.getInstance().endConnection();
     }
 }
