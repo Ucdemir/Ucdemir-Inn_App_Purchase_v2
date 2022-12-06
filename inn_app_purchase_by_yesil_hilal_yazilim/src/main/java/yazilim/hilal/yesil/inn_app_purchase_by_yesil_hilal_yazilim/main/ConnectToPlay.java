@@ -175,9 +175,12 @@ public class ConnectToPlay  extends YHYManager{
 
 
                                         if(purchaseToken.equals("")){
-                                            Purchase p = list.get(0);
-                                            instance.purchaseStatus( billingResult,  list);
-                                            purchaseToken = p.getPurchaseToken();
+
+                                            if(list != null) {
+                                                Purchase p = list.get(0);
+                                                instance.purchaseStatus(billingResult, list);
+                                                purchaseToken = p.getPurchaseToken();
+                                            }
                                         }else{
                                             purchaseToken = "";
                                         }

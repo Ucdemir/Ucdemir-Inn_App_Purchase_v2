@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
             }
-        }).shouldFirstProductsReturnTrue(true);
+        });//.shouldFirstProductsReturnTrue(true);
 
 
 
