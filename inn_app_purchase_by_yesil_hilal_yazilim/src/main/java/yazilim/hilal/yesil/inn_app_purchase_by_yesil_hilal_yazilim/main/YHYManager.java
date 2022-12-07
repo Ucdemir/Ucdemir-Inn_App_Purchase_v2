@@ -74,12 +74,12 @@ import java.util.List;
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
 
-                mPendingIntent = PendingIntent.getActivity( context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_MUTABLE);
+                mPendingIntent = PendingIntent.getActivity( context, mPendingIntentId, mStartActivity,  PendingIntent.FLAG_IMMUTABLE| PendingIntent.FLAG_UPDATE_CURRENT );
             }
             else
             {
                 mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId /* Request code */, mStartActivity,
-                        PendingIntent.FLAG_ONE_SHOT);
+                        PendingIntent.FLAG_CANCEL_CURRENT);
 
 
             }
