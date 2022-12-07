@@ -69,7 +69,25 @@ import java.util.List;
             mStartActivity = new Intent(context, Class.forName(className));
 
             int mPendingIntentId = 123456;
-            PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            PendingIntent mPendingIntent = null;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+
+                mPendingIntent = PendingIntent.getActivity( context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_MUTABLE);
+            }
+            else
+            {
+                mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId /* Request code */, mStartActivity,
+                        PendingIntent.FLAG_ONE_SHOT);
+
+
+            }
+
+             //mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+
             AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 6500, mPendingIntent);
 
