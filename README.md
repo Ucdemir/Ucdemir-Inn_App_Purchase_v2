@@ -19,7 +19,7 @@ You can test this library, with real device:
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
 
 # Implementation
-Add  below commands inside application tag  in manifest
+#### Add  below commands inside application tag  in manifest ####
   ```java
         android:fullBackupContent="false"
         android:allowBackup="false"
