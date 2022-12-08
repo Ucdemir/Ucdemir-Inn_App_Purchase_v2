@@ -6,7 +6,7 @@
 
 
 You can test this library, with real device:
-[Browse Example on Google Play](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
+[Android Example App](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
 
 [This Library designed as Google guide](https://developer.android.com/google/play/billing/billing_library_overview)
 
@@ -27,7 +27,7 @@ Add  below commands inside application tag  in manifest
 ```
 
 
-add permission to manifest
+Add permission to manifest
 
 ```android
 <uses-permission android:name="com.android.vending.BILLING"/>
@@ -57,7 +57,6 @@ ext.sharedGroup = {dependencyHandler->
     implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 ```
-Moreover, You must have billing, room and kprogresshud dependency!
 
 ***Why should you add those in project module?***
 
@@ -74,15 +73,13 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 ## How to use Library ?        
 ### MainActivity:
 
-Create String Array List:
+<ins> Create String Array List: </ins>
 
  ```java
     public static List<String> listOfApplicationSKU;
 ```
  
-
-***Add your products names (SKU)***
-
+Add your products names (SKU)
 
  ```java
      listOfApplicationSKU = new ArrayList<>();
