@@ -1,5 +1,5 @@
-# Android Google Play In APP Billing Library v:3.0.3 
-**Yeşil Hilal Yazilim : As your service, Develop Future**
+# Android Google Play In APP Billing Library v:5.1.0 
+**UCDEMİR YAZILIM : As your service, Developing Future**
 
 [![](https://jitpack.io/v/Ucdemir/Ucdemir-Inn_App_Purchase_v2.svg)](https://jitpack.io/#Ucdemir/Ucdemir-Inn_App_Purchase_v2)
 
@@ -11,38 +11,22 @@ You can test this library, with real device:
 [This Library designed as Google guide](https://developer.android.com/google/play/billing/billing_library_overview)
 
 
-
-**Note: Google use cache functions.. That result some updates to be updated lately... If you want immediate update. Clear Google Play Application data from device settings**
-
-
-
 * Library is supported for "**INAPP**"
 * Subscription  will be supported later!
-* Library use Roomdb for your products, You don’t need implementation to check status of your products
-* Library use Shared dependency. Your app will be less sized
-and no multidex needed
-* Library checks your products status on every time app starts. You can get status(bought or not)!
+* Library use Roomdb for your products
+* Library use Shared dependency (App module ). Your app will be less sized and no multidex needed
+* Library checks your products status on every time app starts.
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
-* Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
-* You can check example app!
 
- **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
-Acknowledged. Otherwise item will be refunded! This is Google rule!**
-
- **Note-2: At fresh start, you can set "shouldFirstProductsReturnTrue" to true in order to  return products states  -> true for better user experience
- 
-  **Note-3: add this below commands inside application tag  in manifest
-  
+# Implementation
+Add  below commands inside application tag  in manifest
   ```java
         android:fullBackupContent="false"
         android:allowBackup="false"
         tools:replace="android:allowBackup"
 ```
 
-# Read Carefully : 
--Every time the application is opened, all products are checked and the correct results are shown.
 
-## Implementation
 add permission to manifest
 
 ```android
@@ -61,10 +45,7 @@ allprojects {
 	}
 	
 ```
- 
 Add this dependencies also inside project module
-
-
 
 ```java
 ext.sharedGroup = {dependencyHandler->
