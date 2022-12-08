@@ -25,16 +25,14 @@ You can test this library, with real device:
         android:allowBackup="false"
         tools:replace="android:allowBackup"
 ```
-
-
-Add permission to manifest
+#### <ins> Add permission to manifest </ins> ####
 
 ```android
 <uses-permission android:name="com.android.vending.BILLING"/>
 ```
 
-Add this In Project module  :
 
+#### <ins> Add this In Project module  : </ins> ####
 
 ```java
 allprojects {
@@ -45,7 +43,9 @@ allprojects {
 	}
 	
 ```
-Add this dependencies also inside project module
+
+#### <ins> Add this dependencies also inside project module </ins> ####
+
 
 ```java
 ext.sharedGroup = {dependencyHandler->
@@ -62,9 +62,9 @@ ext.sharedGroup = {dependencyHandler->
 
 Answer: Those  dependencies can be use on every module  if you add  on project module... So less size, No multidex!
 
-  
-  
- **Add this two lines in main module :**
+ 
+ #### <ins> Add this two lines in main module : </ins> ####
+ 
  ```java
   implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.6.3'
   sharedGroup dependencies
@@ -73,7 +73,10 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 ## How to use Library ?        
 ### MainActivity:
 
- Create String Array List:
+
+ 
+ #### <ins>  Create String Array List: </ins> ####
+
 
  ```java
     public static List<String> listOfApplicationSKU;
