@@ -202,4 +202,10 @@ Moreover also create  this hasmap in your Activity or Fragment :
     private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();  
 ```
 
+***How to Buyout : ***
 
+ ```java
+        ConnectToPlay.getInstance().startBuyOut(this,hashMapSkuDetails.get("bor")); 
+```
+
+"bor" is product name
