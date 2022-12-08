@@ -82,7 +82,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
     public static List<String> listOfApplicationSKU;
 ```
  
-Add your products names (SKU)
+ #### <ins> Add your products names (SKU) :  </ins> ####
 
  ```java
      listOfApplicationSKU = new ArrayList<>();
@@ -94,8 +94,9 @@ Add your products names (SKU)
 
   ``` 
 
+ #### <ins> Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results...  </ins> ####
 
-Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results...
+
  ```java
     ConnectToPlay.getInstance().initForActivity(this).billingSKUS(DataManager.listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
@@ -108,8 +109,11 @@ Add below code inside your "Main Activity". Those codes check your products stat
                     }
                 });
 ```
-### Buyout -> Activity or Fragment :
-Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item
+## Buyout -> Activity or Fragment :
+
+ #### <ins>Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item
+ </ins> ####
+
 
  ```java
 
@@ -127,7 +131,7 @@ Add below codes inside Buyout -> Activity or Fragment... Those codes get product
                 });
 ```
 
-Exammple of "setPrice" function (You can also look example) : 
+ #### <ins> Exammple of "setPrice" function (You can also look example) :  </ins> ####
 
  ```java
 private void setPrice(){
@@ -172,8 +176,8 @@ private void setPrice(){
     }
   
 ```
+#### <ins> Moreover also create  this hasmap in your Activity or Fragment : </ins> ####
 
-Moreover also create  this hasmap in your Activity or Fragment :
 
  ```java
     private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();  
