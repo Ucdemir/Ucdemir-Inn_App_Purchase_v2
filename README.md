@@ -249,6 +249,7 @@ setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
         });
 
 ```
+## Some Functions :   
 
 At fresh instalation of user set below code true if you want your products to response true...
 Think that: Your app have ads and you dont want to shown at fresh start
