@@ -112,32 +112,38 @@ Create String Array List:
         listOfApplicationSKU.add("sun");
 
   ``` 
-Call StartToWork with Enum parameter CallType.CheckProductStatus. 
-This method checks of all your products status. User bought or rejected. 
-call billingSKUS after initActivity with passing all of your skus 
 
 
+Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results...
  ```java
-ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+    ConnectToPlay.getInstance().initForActivity(this).billingSKUS(DataManager.listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
-                    
 
+
+
+
+                    }
+                });
+```
+
+Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item
+
+ ```java
+
+  ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
+                .setInAppPurchaseListener(new InAppPurchaseListener() {
+                    @Override
+                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,ProductDetails> hashMapSkuDetails) {
+                        ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
+                        setPrice();
+
+
+                        ConnectToPlay.getInstance().hideHud();
                     }
-                }).setAfterConsumeListener(new AfterConsumeListener() {
-            @Override
-            public void afterConsume(BillingResult billingResult, String s) {
 
-
-
-            }
-        }).setAfterAcknowledgePurchaseResponseListener(new AfterAcknowledgePurchaseResponseListener() {
-            @Override
-            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
-
-            }
-        });
+                });
 ```
 
 
