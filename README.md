@@ -146,4 +146,60 @@ Add below codes inside Buyout -> Activity or Fragment... Those codes get product
                 });
 ```
 
+Exammple of "setPrice" function (You can also look example) : 
+
+ ```java
+private void setPrice(){
+
+
+        for (Map.Entry<String, ProductDetails> e  : hashMapSkuDetails.entrySet()){
+
+            Log.d("YHY", "price : " + e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+            switch (e.getKey()){
+
+                case "bor":
+
+                    binding.btnOfBor.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+                    break;
+                case "gas":
+
+                    binding.btnOfGas.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    //binding.btnOfGas.setText(binding.btnOfGas.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+
+                    break;
+
+                case "noads":
+                    binding.btnOfNoads.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    //binding.btnOfNoads.setText(binding.btnOfNoads.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+                    break;
+
+                case "pro":
+                    binding.btnOfPro.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    //binding.btnOfPro.setText(binding.btnOfPro.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+                    break;
+
+                case "sun":
+                    binding.btnOfSun.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    //binding.btnOfSun.setText(binding.btnOfSun.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
+                    break;
+
+            }
+
+        }
+
+    }
+  
+```
+
+Moreover also create  this hasmap in your Activity or Fragment :
+
+ ```java
+    private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();  
+```
+
 
