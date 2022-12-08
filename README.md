@@ -254,7 +254,7 @@ setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
 At fresh instalation of user set below code true if you want your products to response true...
 Think that: Your app have ads and you dont want to shown at fresh start
 ```java
-  .shouldFirstProductsReturnTrue(true);
+  shouldFirstProductsReturnTrue(true);
   
 ```
 
@@ -262,4 +262,9 @@ if you want your app to be restart after purchase you can make below function to
 ```java
  shouldRestartApp(true)  
 ```
+## How to cunsome product :   
 
+```java
+    Purchase p = hashMapPurchaseDetails.get("bor");
+    ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+```
