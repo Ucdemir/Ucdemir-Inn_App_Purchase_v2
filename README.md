@@ -211,7 +211,7 @@ Moreover also create  this hasmap in your Activity or Fragment :
 "bor" is product name
 
 
-### How to status of product : ###
+### How to get status of product : ###
 
  ```java
         ConnectToPlay.getInstance().whatIsProductStatus("bor")
