@@ -127,7 +127,7 @@ Add below code inside your "Main Activity". Those codes check your products stat
                     }
                 });
 ```
-
+### Buyout -> Activity or Fragment :
 Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item
 
  ```java
