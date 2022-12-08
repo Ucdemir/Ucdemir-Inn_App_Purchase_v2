@@ -130,7 +130,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
                 });
 ```
 
- #####  Exammple of "setPrice" function (You can also look example) : #####
+ #####  Example of "setPrice" function (You can also look example) : #####
 
  ```java
 private void setPrice(){
