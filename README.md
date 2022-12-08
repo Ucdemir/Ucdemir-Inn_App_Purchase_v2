@@ -75,14 +75,14 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 
 
  
- #### <ins>  Create String Array List: </ins> ####
+ #### Create String Array List:  ####
 
 
  ```java
     public static List<String> listOfApplicationSKU;
 ```
  
- #### <ins> Add your products names (SKU) :  </ins> ####
+ #### Add your products names (SKU) :  ####
 
  ```java
      listOfApplicationSKU = new ArrayList<>();
