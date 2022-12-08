@@ -82,7 +82,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
     public static List<String> listOfApplicationSKU;
 ```
  
- #### Add your products names (SKU) :  ####
+ ##### Add your products names (SKU) :  #####
 
  ```java
      listOfApplicationSKU = new ArrayList<>();
@@ -94,7 +94,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 
   ``` 
 
- ####  Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results... ####
+ #####  Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results... #####
 
 
  ```java
@@ -109,9 +109,9 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
                     }
                 });
 ```
-## Buyout -> Activity or Fragment :
+## Buyout -> Activity / Fragment :
 
- #### Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item  ####
+ ##### Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item  #####
 
 
  ```java
@@ -130,7 +130,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
                 });
 ```
 
- ####  Exammple of "setPrice" function (You can also look example) : ####
+ #####  Exammple of "setPrice" function (You can also look example) : #####
 
  ```java
 private void setPrice(){
@@ -175,7 +175,7 @@ private void setPrice(){
     }
   
 ```
-####  Moreover also create  this hasmap in your Activity or Fragment : ####
+#####  Moreover also create  this hasmap in your Activity or Fragment : #####
 
 
  ```java
