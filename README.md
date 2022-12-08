@@ -202,7 +202,7 @@ Moreover also create  this hasmap in your Activity or Fragment :
     private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();  
 ```
 
-*** How to Buyout : ***
+### How to Buyout : ###
 
  ```java
         ConnectToPlay.getInstance().startBuyOut(this,hashMapSkuDetails.get("bor")); 
