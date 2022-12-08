@@ -29,7 +29,7 @@ and no multidex needed
  **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
 Acknowledged. Otherwise item will be refunded! This is Google rule!**
 
- **Note-2: At fresh start, all products return true for better user experience, after second application call it return products real status!
+ **Note-2: At fresh start, you can set "shouldFirstProductsReturnTrue" to true in order to  return products states  -> true for better user experience
  
   **Note-3: add this below commands inside application tag  in manifest
   
@@ -39,27 +39,17 @@ Acknowledged. Otherwise item will be refunded! This is Google rule!**
         tools:replace="android:allowBackup"
 ```
 
-**You can't use example project with emulator since it does not have play store**
-
-
 # Read Carefully : 
--Whenever app installed, in first status of products  is bought!  Second call return real status!
-
--User who purchased products will never see advertisement (First Open).
-
--User who install application will not see advertisement in first open. It is better user experience 
-
--After You call function on MainActivity It gets correct status.This function check on every open the application
+-Every time the application is opened, all products are checked and the correct results are shown.
 
 ## Implementation
-
-don't forget to add permission to manifest
+add permission to manifest
 
 ```android
 <uses-permission android:name="com.android.vending.BILLING"/>
 ```
 
-In Project module add this:
+Add this In Project module  :
 
 
 ```java
@@ -72,43 +62,34 @@ allprojects {
 	
 ```
  
-Again project module add this dependencies
+Add this dependencies also inside project module
 
- Note: You can have newer version of this libraries,
- 
- Moreover, You must have billing, room and kprogresshud dependency!
+Moreover, You must have billing, room and kprogresshud dependency!
 
 ```java
 ext.sharedGroup = {dependencyHandler->
-    delegate = dependencyHandler
-     implementation 'com.android.billingclient:billing:3.0.2'
-    implementation "androidx.room:room-runtime:2.2.6"
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+   delegate = dependencyHandler
+    implementation 'com.android.billingclient:billing:5.1.0'
+    implementation "androidx.room:room-runtime:2.4.3"
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
     implementation 'com.kaopiz:kprogresshud:1.2.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 ```
 
+***Why should you add those in project module?***
 
-
-***Why you adding this?***
-
-Answer: This dependencies can be use on every module your app have.. So less size, No multidex!
+Answer: Those  dependencies can be use on every module  if you add  on project module... So less size, No multidex!
 
   
   
- **in main module add this two lines:**
+ **Add this two lines in main module :**
  ```java
-  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.9'
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.6.3'
   sharedGroup dependencies
 ```
 
-
-
-
-
-## How to use Library ?
-
-        
+## How to use Library ?        
 ### MainActivity:
 
 Create String Array List:
@@ -159,110 +140,3 @@ ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationS
 ```
 
 
-If you need listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
-
-If you need acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
-
-***You have to use "setProductStatusGotListener" listener.***
-
-Because your application have to check products every time app start.
-
-This listener, have to call on Your application's **MainActivity** 
-
-**Note: "startToWork" function have enum parameter***
-
-
-   ```java
-    public enum CallType{
-        GetPriceProducts,
-        CheckProductStatus,
-    }
-  ```
-**Use  CheckProductStatus in your MainActivity**
-
-**Use GetPriceProducts in your billing Actvity/fragment**
-
-Google guide says this:
-
-**Call queryPurchases() every time your app launches so that you can restore any purchases that a user has made since the app last stopped. Call queryPurchases() in your onResume() method, because a user can make a purchase when your app is in the background (for example, redeeming a promo code in the Google Play Store app).**
-
-You can call this listener for onResume if you want!
-
-"setProductStatusGotListener" called, after queryPurchases()  is executed..
-
-Our Library use RoomDB for you for your product.... If you want to check product status 
-
-you can use this method:
-
-   ```java
-ConnectToPlay.getInstance().whatIsProductStatus(sku);
-  ```
-  
-## Note : dont call   "whatIsProductStatus" function before startToWork. If  you do , app will crash!
-   
-  
-sku is your product name which is added in MainActivity in to Arraylist.
-
-You can check every product with 
-
-   ```java
-ConnectToPlay.getInstance().whatIsProductStatus(sku);
-  ```
-
-setProductStatusGotListener returns Hasmaps 
-
-***HashMap<String, Purchase> hashMapPurchaseDetails***
-
-**Why listener return this?**
-
-Answer: If you want to consume product use this:
-
-   ```java
-Purchase p = hashMapPurchaseDetails.get(sku);
-ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
-  ```
-  
-Hasmap's first parameter name of product(sku)
-
-second parameter is Purchase Class off Google in app billing class
-        
-        
-        
-### In your App billing Actvity/Fragment use this:
-
-   ```java
-   ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
-                .setInAppPurchaseListener(new InAppPurchaseListener() {
-                    @Override
-                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,SkuDetails> hashMapSkuDetails) {
-                        ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
-                        setPrice();
-
-                        ConnectToPlay.getInstance().hideHud();
-                    }
-
-
-                });
-
-  ```
-
-You can remove hud, if you don’t want spinner.
-**Be Attention, There is no billingSKUS() function on this**
-
-listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
-
-First parameter product name(sku)
-
-Second is Google SkuDetails:
-
-**You need SkuDetails for buy product!**
-
-For example: If you have named "pro" product, You must call in button to start buying
-  
-  
-  ```java
-  ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
-  ```
-  
-  
-  For more details, view example!
