@@ -64,7 +64,7 @@ allprojects {
  
 Add this dependencies also inside project module
 
-Moreover, You must have billing, room and kprogresshud dependency!
+
 
 ```java
 ext.sharedGroup = {dependencyHandler->
@@ -76,6 +76,7 @@ ext.sharedGroup = {dependencyHandler->
     implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 ```
+Moreover, You must have billing, room and kprogresshud dependency!
 
 ***Why should you add those in project module?***
 
