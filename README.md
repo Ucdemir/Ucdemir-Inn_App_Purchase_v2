@@ -19,7 +19,7 @@ You can test this library, with real device:
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
 
 # Implementation
-#### Add  below commands inside application tag  in manifest ####
+#### <ins> Add  below commands inside application tag  in manifest #### <\ins>
   ```java
         android:fullBackupContent="false"
         android:allowBackup="false"
@@ -73,7 +73,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 ## How to use Library ?        
 ### MainActivity:
 
-<ins> Create String Array List: </ins>
+ Create String Array List:
 
  ```java
     public static List<String> listOfApplicationSKU;
