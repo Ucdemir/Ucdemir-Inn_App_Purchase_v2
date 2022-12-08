@@ -166,26 +166,22 @@ private void setPrice(){
 
                     binding.btnOfGas.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    //binding.btnOfGas.setText(binding.btnOfGas.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
 
                     break;
 
                 case "noads":
                     binding.btnOfNoads.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    //binding.btnOfNoads.setText(binding.btnOfNoads.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
                 case "pro":
                     binding.btnOfPro.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    //binding.btnOfPro.setText(binding.btnOfPro.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
                 case "sun":
                     binding.btnOfSun.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
 
-                    //binding.btnOfSun.setText(binding.btnOfSun.getText()+" ("+  e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice()+")");
                     break;
 
             }
@@ -217,3 +213,16 @@ Moreover also create  this hasmap in your Activity or Fragment :
         ConnectToPlay.getInstance().whatIsProductStatus("bor")
 ```
 
+## Some Listeners:     
+Below listener for consume :
+```java
+
+setAfterConsumeListener(new AfterConsumeListener() {
+            @Override
+            public void afterConsume(BillingResult billingResult, String s) {
+
+
+
+            }
+        });
+```
