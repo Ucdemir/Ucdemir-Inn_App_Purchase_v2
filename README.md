@@ -70,8 +70,8 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
   sharedGroup dependencies
 ```
 
-## How to use Library ?        
-### MainActivity:
+# How to use Library ?        
+## MainActivity:
 
 
  
@@ -94,7 +94,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 
   ``` 
 
- #### <ins> Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results...  </ins> ####
+ ####  Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results... ####
 
 
  ```java
@@ -111,8 +111,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
 ```
 ## Buyout -> Activity or Fragment :
 
- #### <ins>Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item
- </ins> ####
+ #### Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item  ####
 
 
  ```java
@@ -131,7 +130,7 @@ Answer: Those  dependencies can be use on every module  if you add  on project m
                 });
 ```
 
- #### <ins> Exammple of "setPrice" function (You can also look example) :  </ins> ####
+ ####  Exammple of "setPrice" function (You can also look example) : ####
 
  ```java
 private void setPrice(){
@@ -176,7 +175,7 @@ private void setPrice(){
     }
   
 ```
-#### <ins> Moreover also create  this hasmap in your Activity or Fragment : </ins> ####
+####  Moreover also create  this hasmap in your Activity or Fragment : ####
 
 
  ```java
@@ -198,7 +197,7 @@ private void setPrice(){
         ConnectToPlay.getInstance().whatIsProductStatus("bor")
 ```
 
-## Some Listeners:     
+### Some Listeners:     
 Below listener for consume :
 ```java
 
@@ -234,7 +233,7 @@ setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
         });
 
 ```
-## Some Functions :   
+### Some functions :   
 
 At fresh instalation of user set below code true if you want your products to response true...
 Think that: Your app have ads and you dont want to shown at fresh start
@@ -247,7 +246,7 @@ if you want your app to be restart after purchase you can make below function to
 ```java
  shouldRestartApp(true)  
 ```
-## How to cunsome product :   
+### How to cunsome product :   
 
 ```java
     Purchase p = hashMapPurchaseDetails.get("bor");
