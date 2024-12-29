@@ -1,36 +1,30 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
-    repositories {
-        google()
-        jcenter()
-        
-    }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.google.gms:google-services:4.3.14'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        
-    }
+
+plugins {
+    id 'com.android.application' version '8.1.1' apply false
+    id 'com.android.library' version '8.1.1' apply false
 }
+
 
 ext.sharedGroup = {dependencyHandler->
     delegate = dependencyHandler
-    implementation 'com.android.billingclient:billing:5.1.0'
+    implementation 'com.android.billingclient:billing:6.1.0'
     implementation "androidx.room:room-runtime:2.4.3"
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
-    implementation 'com.kaopiz:kprogresshud:1.2.0'
-    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    //implementation 'com.kaopiz:kprogresshud:1.2.0'
+    //implementation 'io.github.rupinderjeet:kprogresshud:1.0.0'
+    //implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    implementation 'com.google.guava:guava:33.4.0-android'
+
+    implementation 'com.google.android.play:app-update:2.1.0'
 
 
 

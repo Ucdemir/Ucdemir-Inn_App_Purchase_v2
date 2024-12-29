@@ -8,9 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.UpdateAvailability;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_main);
 
 
-        ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+        /*ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     ConnectToPlay.printProductStatus("onListener");
 
 
-                      /*Purchase p = hashMapPurchaseDetails.get("bor");
+                      Purchase p = hashMapPurchaseDetails.get("bor");
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
                          p = hashMapPurchaseDetails.get("gas");
@@ -73,15 +79,15 @@ public class MainActivity extends AppCompatActivity {
                         ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
                         p = hashMapPurchaseDetails.get("sun");
-                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
+                        ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
 
                         for (String sku : listOfApplicationSKU){
 
 
 
-                            /*Purchase p = hashMapPurchaseDetails.get(sku);
-                            ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());*/
+                            Purchase p = hashMapPurchaseDetails.get(sku);
+                            ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
 
 
                             //String status  = ConnectToPlay.getInstance().statusOfProduct(sku).toString();
@@ -123,12 +129,12 @@ public class MainActivity extends AppCompatActivity {
             public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
             }
-        });//.shouldFirstProductsReturnTrue(true);
+        });//.shouldFirstProductsReturnTrue(true);*/
 
 
 
 
-
+        checkIsThereUpdate();
 
 
 
@@ -145,5 +151,28 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         ConnectToPlay.getInstance().endConnection();
+    }
+
+    private void checkIsThereUpdate(){
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+
+// Returns an intent object that you use to check for an update.
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+// Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+
+            Toast.makeText(MainActivity.this,"AAA",Toast.LENGTH_LONG).show();
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                // This example applies an immediate update. To apply a flexible update
+                // instead, pass in AppUpdateType.FLEXIBLE
+                /*&& appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)*/) {
+                // Request the update.
+
+                Toast.makeText(MainActivity.this,"BBB",Toast.LENGTH_LONG).show();
+
+                String k = "";
+            }
+        });
     }
 }

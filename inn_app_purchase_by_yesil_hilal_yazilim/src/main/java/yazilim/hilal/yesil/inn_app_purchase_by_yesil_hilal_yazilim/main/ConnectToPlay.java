@@ -27,13 +27,15 @@ import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.common.collect.ImmutableList;
-import com.kaopiz.kprogresshud.KProgressHUD;
+//import com.google.common.collect.ImmutableList;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.R;
+
+import inn_app_purchase_by_yesil_hilal_yazilim.R;
 
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterAcknowledgePurchaseResponseListener;
 import yazilim.hilal.yesil.inn_app_purchase_by_yesil_hilal_yazilim.listener.AfterConsumeListener;
@@ -61,7 +63,7 @@ public class ConnectToPlay  extends YHYManager{
     private HashMap<String,Purchase> hashMapPurchaseDetails = new HashMap<>();
 
 
-    private KProgressHUD hud;
+    //private KProgressHUD hud;
 
 
 
@@ -95,8 +97,8 @@ public class ConnectToPlay  extends YHYManager{
 
     }
 
-    public  ConnectToPlay showHud(String msg){
-        hud = KProgressHUD.create(activity)
+    /*public  ConnectToPlay showHud(String msg){
+       hud = KProgressHUD.create(activity)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setDimAmount(0.5f)
                 .setAnimationSpeed(2);
@@ -115,7 +117,7 @@ public class ConnectToPlay  extends YHYManager{
             hud.dismiss();
         }
 
-    }
+    }*/
 
     public static ConnectToPlay getInstance(){
         if (instance == null){

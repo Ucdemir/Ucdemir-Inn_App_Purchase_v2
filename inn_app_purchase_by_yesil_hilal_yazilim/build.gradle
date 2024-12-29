@@ -9,7 +9,8 @@ project.afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.release
+                //This one used before
+                //from components.release
             }
         }
     }
@@ -17,12 +18,16 @@ project.afterEvaluate {
 
 group='com.github.Ucdemir'
 android {
-    compileSdkVersion 31
-    buildToolsVersion "29.0.3"
+
+
+    namespace 'inn_app_purchase_by_yesil_hilal_yazilim'
+
+
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -36,10 +41,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
+
 
 }
 

@@ -41,7 +41,7 @@ public class ProFragment extends AppCompatActivity {
 
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_pro);
 
-        ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
+        ConnectToPlay.getInstance().initForActivity(this)./*showHud("Loading").*/startToWork(ConnectToPlay.CallType.GetPriceProducts)
                 .setInAppPurchaseListener(new InAppPurchaseListener() {
                     @Override
                     public void returnAllProductsDetailsFromPlayStore(HashMap<String,ProductDetails> hashMapSkuDetails) {
@@ -49,7 +49,7 @@ public class ProFragment extends AppCompatActivity {
                         setPrice();
 
 
-                        ConnectToPlay.getInstance().hideHud();
+                        //ConnectToPlay.getInstance().hideHud();
                     }
 
                 }).setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
