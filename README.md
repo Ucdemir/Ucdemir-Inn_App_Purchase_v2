@@ -1,66 +1,38 @@
-# Android Google Play In APP Billing Library v:3.0.3 
-**Yeşil Hilal Yazilim : As your service, Develop Future**
+# Android Google Play In APP Billing Library v:5.1.0 
+**UCDEMİR YAZILIM : As your service, Developing Future**
 
 [![](https://jitpack.io/v/Ucdemir/Ucdemir-Inn_App_Purchase_v2.svg)](https://jitpack.io/#Ucdemir/Ucdemir-Inn_App_Purchase_v2)
 
 
 
 You can test this library, with real device:
-[Browse Example on Google Play](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
+[Android Example App](https://play.google.com/store/apps/details?id=yazilim.hilal.yesil.inn_app_purchase)
 
 [This Library designed as Google guide](https://developer.android.com/google/play/billing/billing_library_overview)
 
 
-
-**Note: Google use cache functions.. That result some updates to be updated lately... If you want immediate update. Clear Google Play Application data from device settings**
-
-
-
 * Library is supported for "**INAPP**"
 * Subscription  will be supported later!
-* Library use Roomdb for your products, You don’t need implementation to check status of your products
-* Library use Shared dependency. Your app will be less sized
-and no multidex needed
-* Library checks your products status on every time app starts. You can get status(bought or not)!
+* Library use Roomdb for your products
+* Library use Shared dependency (App module ). Your app will be less sized and no multidex needed
+* Library checks your products status on every time app starts.
 * Every product bought by client need to be " Acknowledged" in **SUCCES State**. Library is making this for you! 
-* Library support (immediate buy, response late purchase succus, response late purchase reject, user canceled purchase)
-* You can check example app!
 
- **Note: If user come situation with "**response late, purchase success**", User need to use apps between three days for
-Acknowledged. Otherwise item will be refunded! This is Google rule!**
-
- **Note-2: At fresh start, all products return true for better user experience, after second application call it return products real status!
- 
-  **Note-3: add this below commands inside application tag  in manifest
-  
+# Implementation
+#### <ins> Add  below commands inside application tag  in manifest  </ins> ####
   ```java
         android:fullBackupContent="false"
         android:allowBackup="false"
         tools:replace="android:allowBackup"
 ```
-
-**You can't use example project with emulator since it does not have play store**
-
-
-# Read Carefully : 
--Whenever app installed, in first status of products  is bought!  Second call return real status!
-
--User who purchased products will never see advertisement (First Open).
-
--User who install application will not see advertisement in first open. It is better user experience 
-
--After You call function on MainActivity It gets correct status.This function check on every open the application
-
-## Implementation
-
-don't forget to add permission to manifest
+#### <ins> Add permission to manifest </ins> ####
 
 ```android
 <uses-permission android:name="com.android.vending.BILLING"/>
 ```
 
-In Project module add this:
 
+#### <ins> Add this In Project module  : </ins> ####
 
 ```java
 allprojects {
@@ -71,55 +43,46 @@ allprojects {
 	}
 	
 ```
- 
-Again project module add this dependencies
 
- Note: You can have newer version of this libraries,
- 
- Moreover, You must have billing, room and kprogresshud dependency!
+#### <ins> Add this dependencies also inside project module </ins> ####
+
 
 ```java
 ext.sharedGroup = {dependencyHandler->
-    delegate = dependencyHandler
-     implementation 'com.android.billingclient:billing:3.0.2'
-    implementation "androidx.room:room-runtime:2.2.6"
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+   delegate = dependencyHandler
+    implementation 'com.android.billingclient:billing:5.1.0'
+    implementation "androidx.room:room-runtime:2.4.3"
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
     implementation 'com.kaopiz:kprogresshud:1.2.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 ```
 
+***Why should you add those in project module?***
 
+Answer: Those  dependencies can be use on every module  if you add  on project module... So less size, No multidex!
 
-***Why you adding this?***
-
-Answer: This dependencies can be use on every module your app have.. So less size, No multidex!
-
-  
-  
- **in main module add this two lines:**
+ 
+ #### <ins> Add this two lines in main module : </ins> ####
+ 
  ```java
-  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.5.9'
+  implementation 'com.github.Ucdemir:Ucdemir-Inn_App_Purchase_v2:0.0.6.3'
   sharedGroup dependencies
 ```
 
+# How to use Library ?        
+## MainActivity:
 
 
+ 
+ ##### Create String Array List:  #####
 
-
-## How to use Library ?
-
-        
-### MainActivity:
-
-Create String Array List:
 
  ```java
     public static List<String> listOfApplicationSKU;
 ```
  
-
-***Add your products names (SKU)***
-
+ ##### Add your products names (SKU) :  #####
 
  ```java
      listOfApplicationSKU = new ArrayList<>();
@@ -130,27 +93,128 @@ Create String Array List:
         listOfApplicationSKU.add("sun");
 
   ``` 
-Call StartToWork with Enum parameter CallType.CheckProductStatus. 
-This method checks of all your products status. User bought or rejected. 
-call billingSKUS after initActivity with passing all of your skus 
+
+ #####  Add below code inside your "Main Activity". Those codes check your products status on every application start and returns true results... #####
 
 
  ```java
-ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
+    ConnectToPlay.getInstance().initForActivity(this).billingSKUS(DataManager.listOfApplicationSKU).startToWork(ConnectToPlay.CallType.CheckProductStatus).
                 setProductStatusGotListener(new ProductStatusGotListener() {
                     @Override
                     public void onProductStatusGot(HashMap<String, Purchase> hashMapPurchaseDetails) {
-                    
+
+
+
 
                     }
-                }).setAfterConsumeListener(new AfterConsumeListener() {
+                });
+```
+## Buyout -> Activity / Fragment :
+
+ ##### Add below codes inside Buyout -> Activity or Fragment... Those codes get products data’s such as price. Moreover you need "ProductDetails" data in order to buyout item  #####
+
+
+ ```java
+
+  ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
+                .setInAppPurchaseListener(new InAppPurchaseListener() {
+                    @Override
+                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,ProductDetails> hashMapSkuDetails) {
+                        ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
+                        setPrice();
+
+
+                        ConnectToPlay.getInstance().hideHud();
+                    }
+
+                });
+```
+
+ #####  Example of "setPrice" function (You can also look example) : #####
+
+ ```java
+private void setPrice(){
+
+
+        for (Map.Entry<String, ProductDetails> e  : hashMapSkuDetails.entrySet()){
+
+            Log.d("YHY", "price : " + e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+            switch (e.getKey()){
+
+                case "bor":
+
+                    binding.btnOfBor.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+                    break;
+                case "gas":
+
+                    binding.btnOfGas.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+
+                    break;
+
+                case "noads":
+                    binding.btnOfNoads.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    break;
+
+                case "pro":
+                    binding.btnOfPro.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    break;
+
+                case "sun":
+                    binding.btnOfSun.setText( e.getValue().getOneTimePurchaseOfferDetails().getFormattedPrice());
+
+                    break;
+
+            }
+
+        }
+
+    }
+  
+```
+#####  Moreover also create  this hasmap in your Activity or Fragment : #####
+
+
+ ```java
+    private HashMap<String, ProductDetails> hashMapSkuDetails = new HashMap<>();  
+```
+
+### How to Buyout : ###
+
+ ```java
+        ConnectToPlay.getInstance().startBuyOut(this,hashMapSkuDetails.get("bor")); 
+```
+
+"bor" is product name
+
+
+### How to get status of product : ###
+
+ ```java
+        ConnectToPlay.getInstance().whatIsProductStatus("bor")
+```
+
+### Some Listeners:     
+Below listener for consume :
+```java
+
+setAfterConsumeListener(new AfterConsumeListener() {
             @Override
             public void afterConsume(BillingResult billingResult, String s) {
 
 
 
             }
-        }).setAfterAcknowledgePurchaseResponseListener(new AfterAcknowledgePurchaseResponseListener() {
+        });
+```
+
+Below after acknowledge :
+
+```java
+setAfterAcknowledgePurchaseResponseListener(new AfterAcknowledgePurchaseResponseListener() {
             @Override
             public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
 
@@ -158,111 +222,33 @@ ConnectToPlay.getInstance().initForActivity(this).billingSKUS(listOfApplicationS
         });
 ```
 
-
-If you need listener for after consumed product, you can set "afterConsume" listener, otherwise dont use it
-
-If you need acknowledge listener, use onAcknowledgePurchaseResponse listener. Otherwise dont use it.
-
-***You have to use "setProductStatusGotListener" listener.***
-
-Because your application have to check products every time app start.
-
-This listener, have to call on Your application's **MainActivity** 
-
-**Note: "startToWork" function have enum parameter***
+Below after purchase
+```java
+setSuccessfullyPurchasedListener(new SuccessfullyPurchasedListener() {
+            @Override
+            public void successfullyPurchased(String sku) {
 
 
-   ```java
-    public enum CallType{
-        GetPriceProducts,
-        CheckProductStatus,
-    }
-  ```
-**Use  CheckProductStatus in your MainActivity**
+            }
+        });
 
-**Use GetPriceProducts in your billing Actvity/fragment**
+```
+### Some functions :   
 
-Google guide says this:
-
-**Call queryPurchases() every time your app launches so that you can restore any purchases that a user has made since the app last stopped. Call queryPurchases() in your onResume() method, because a user can make a purchase when your app is in the background (for example, redeeming a promo code in the Google Play Store app).**
-
-You can call this listener for onResume if you want!
-
-"setProductStatusGotListener" called, after queryPurchases()  is executed..
-
-Our Library use RoomDB for you for your product.... If you want to check product status 
-
-you can use this method:
-
-   ```java
-ConnectToPlay.getInstance().whatIsProductStatus(sku);
-  ```
+At fresh instalation of user set below code true if you want your products to response true...
+Think that: Your app have ads and you dont want to shown at fresh start
+```java
+  shouldFirstProductsReturnTrue(true);
   
-## Note : dont call   "whatIsProductStatus" function before startToWork. If  you do , app will crash!
-   
-  
-sku is your product name which is added in MainActivity in to Arraylist.
+```
 
-You can check every product with 
+if you want your app to be restart after purchase you can make below function to be true..
+```java
+ shouldRestartApp(true)  
+```
+### How to cunsome product :   
 
-   ```java
-ConnectToPlay.getInstance().whatIsProductStatus(sku);
-  ```
-
-setProductStatusGotListener returns Hasmaps 
-
-***HashMap<String, Purchase> hashMapPurchaseDetails***
-
-**Why listener return this?**
-
-Answer: If you want to consume product use this:
-
-   ```java
-Purchase p = hashMapPurchaseDetails.get(sku);
-ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
-  ```
-  
-Hasmap's first parameter name of product(sku)
-
-second parameter is Purchase Class off Google in app billing class
-        
-        
-        
-### In your App billing Actvity/Fragment use this:
-
-   ```java
-   ConnectToPlay.getInstance().initForActivity(this).showHud("Loading").startToWork(ConnectToPlay.CallType.GetPriceProducts)
-                .setInAppPurchaseListener(new InAppPurchaseListener() {
-                    @Override
-                    public void returnAllProductsDetailsFromPlayStore(HashMap<String,SkuDetails> hashMapSkuDetails) {
-                        ProFragment.this.hashMapSkuDetails = hashMapSkuDetails;
-                        setPrice();
-
-                        ConnectToPlay.getInstance().hideHud();
-                    }
-
-
-                });
-
-  ```
-
-You can remove hud, if you don’t want spinner.
-**Be Attention, There is no billingSKUS() function on this**
-
-listener, named 'returnAllProductsDetailsFromPlayStore' returns HashMap:
-
-First parameter product name(sku)
-
-Second is Google SkuDetails:
-
-**You need SkuDetails for buy product!**
-
-For example: If you have named "pro" product, You must call in button to start buying
-  
-  
-  ```java
-  ConnectToPlay.getInstance().startBuyOut(this, hashMapSkuDetails.get("pro"));
-  ```
-  
-  
-  For more details, view example!
+```java
+    Purchase p = hashMapPurchaseDetails.get("bor");
+    ConnectToPlay.getInstance().consumeProduct(p.getPurchaseToken(),p.getDeveloperPayload());
+```
