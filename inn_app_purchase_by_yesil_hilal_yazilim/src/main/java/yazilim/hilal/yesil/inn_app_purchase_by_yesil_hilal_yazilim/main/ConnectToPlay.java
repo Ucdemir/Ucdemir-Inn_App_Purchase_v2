@@ -174,8 +174,6 @@ public class ConnectToPlay  extends YHYManager{
                                     @Override
                                     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> list) {
 
-
-
                                         if(purchaseToken.equals("")){
 
                                             if(list != null) {
@@ -186,8 +184,6 @@ public class ConnectToPlay  extends YHYManager{
                                         }else{
                                             purchaseToken = "";
                                         }
-
-
 
 
                                         //mBillingClient.endConnection();
@@ -406,12 +402,6 @@ public class ConnectToPlay  extends YHYManager{
         }
 
     }
-
-
-
-
-
-
 
     //Making Acknowledged
     private void checkIsAcknowledged(Purchase purchase){

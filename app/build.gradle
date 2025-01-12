@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 android {
 
     namespace 'yazilim.hilal.yesil.inn_app_purchase'
@@ -10,8 +11,8 @@ android {
         applicationId "yazilim.hilal.yesil.inn_app_purchase"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 14
-        versionName "1.2.3.8"
+        versionCode 18
+        versionName "1.2.3.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,5 +42,12 @@ dependencies {
 
     sharedGroup dependencies
     implementation project(path: ':inn_app_purchase_by_yesil_hilal_yazilim')
+
+
+    implementation("com.google.firebase:firebase-config")
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
 
 }

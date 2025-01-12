@@ -11,12 +11,13 @@ buildscript {
 plugins {
     id 'com.android.application' version '8.1.1' apply false
     id 'com.android.library' version '8.1.1' apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 
 ext.sharedGroup = {dependencyHandler->
     delegate = dependencyHandler
-    implementation 'com.android.billingclient:billing:6.1.0'
+    implementation 'com.android.billingclient:billing:7.1.0'
     implementation "androidx.room:room-runtime:2.4.3"
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     //implementation 'com.kaopiz:kprogresshud:1.2.0'
@@ -24,7 +25,7 @@ ext.sharedGroup = {dependencyHandler->
     //implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
     implementation 'com.google.guava:guava:33.4.0-android'
 
-    implementation 'com.google.android.play:app-update:2.1.0'
+
 
 
 

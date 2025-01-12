@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "776674695962",
+    "project_id": "myapp-5e239",
+    "storage_bucket": "myapp-5e239.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776674695962:android:e1095548e594489abbeaa3",
+        "android_client_info": {
+          "package_name": "yazilim.hilal.yesil.inn_app_purchase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArUxMWjEN8nQEP_hfqPLL5jkwIRImxnLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

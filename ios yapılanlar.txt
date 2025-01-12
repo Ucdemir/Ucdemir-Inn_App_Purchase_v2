@@ -1,0 +1,111 @@
+IOS In App Purchase
+-Android nasıl yapıldı..- is fress start
+1-) billingSKUS     String isFreshStart = getStringFromSP(IS_FRESH_START,null);
+
+					if(isFreshStart == null){
+						entity.setBought(true);
+					}
+					
+2-) whatIsProductStatus({
+	        if(isFirstOpen){
+            if(shouldFirstProductsReturnTrue) {
+                return true;
+
+            }else{
+              return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
+            }
+        }
+       else {
+
+            return BillingDB.getDatabase(activity).purchaseStatusDAO().isProductBought(skuName);
+        }
+
+}
+
+
+
+31.07.2023:
+-isFreshstart androidddeki gibi entegre ediliyor..
+-whatIsStatus  androiddeki gibi entegre edildi..
+
+
+
+1 Ağustos 2023:
+-Non - consuble produtcs eklendi
+-yazılım kodları incelendi
+-Alım satım işleri genel itibari ile çalişir duruma getirildi..
+
+
+2 Ağustos 2023:
+-Should restart app entegre edildi
+-Should first product return entegre edildi..
+
+-Project stability has been increased.
+-Updated for today
+
+
+
+
+
+sandbox
+ios this item is being modified. please try again later
+
+sandbox test:
+sandbox test hesabı ios -
+checker@omer-demirci.com
+Aa123456!
+
+
+Current active apple account :
+omerahmetyhy@gmail.com
+ 
+ 
+ leading trailing 19  
+ top 18
+ 
+ 
+ ------------------------------------SORUNLAR  EDİLCEKLER
+ -HATA TEST ET İOS SON VERSİYNDA SIMALTORDE PAY PRODUCTS CRASH OLUYOR. 5S DE OLMADI
+ bunu canlı uygulamada test et
+ 
+ 
+ 
+ hacamet
+ balgat doğal hayat
+ 
+ ayın üçünde gitcem
+ 
+ 
+ 
+ 
+ pod spec lint --verbose GTNetworkQualityChecker.podspec
+
+
+
+with below it passwd with warnings
+pod lib lint --use-libraries --allow-warnings
+
+
+pod spec lint --use-libraries --allow-warnings
+
+
+pod trunk push YHYIOSInnAppPurchase.podspec --use-libraries --allow-warnings
+
+
+
+git tag 0.4.2.23
+git push origin 0.4.2.23
+
+
+
+
+"github actions"
+
+crreate swift package
+"swift package init"
+
+
+
+
+guide:
+https://medium.com/@jeantimex/create-your-own-cocoapods-library-da589d5cd270
